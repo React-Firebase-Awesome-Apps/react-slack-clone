@@ -18,7 +18,8 @@ class Register extends Component {
     email: "",
     password: "",
     passwordConfirmation: "",
-    errors: []
+    errors: [],
+    loading: false
   };
 
   displayErrors = errors =>
@@ -64,22 +65,44 @@ class Register extends Component {
   };
 
   handleSubmit = event => {
+    event.preventDefault();
     if (this.isFormValid()) {
-      event.preventDefault();
+      this.setState({ errors: [], loading: true});
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(user => {
           console.log("user", { user });
+          this.setState({ loading: false });
         })
         .catch(err => {
           console.error(err);
+          this.setState({
+            errors: this.state.errors.concat(err),
+            loading: false
+          });
         });
     }
   };
+  handleInputError = (errors, input) => {
+    let className = "";
+    errors.map(error => {
+      if (error.message.toLowerCase().includes(input)) {
+        className = "error";
+      }
+    });
+    return className;
+  };
 
   render() {
-    const { username, email, password, passwordConfirmation, errors } = this.state;
+    const {
+      username,
+      email,
+      password,
+      passwordConfirmation,
+      errors,
+      loading
+    } = this.state;
     return (
       <Grid textAlign="center" verticalAlign="bottom" className="app">
         <Grid.Column style={{ maxWidth: 450 }}>
@@ -103,6 +126,7 @@ class Register extends Component {
                 fluid
                 name="email"
                 value={email}
+                className={this.handleInputError(errors, "email")}
                 icon="mail"
                 iconPosition="left"
                 placeholder="Email Address"
@@ -113,6 +137,7 @@ class Register extends Component {
                 fluid
                 name="password"
                 value={password}
+                className={this.handleInputError(errors, "password")}
                 icon="lock"
                 iconPosition="left"
                 placeholder="Password"
@@ -123,13 +148,20 @@ class Register extends Component {
                 fluid
                 name="passwordConfirmation"
                 value={passwordConfirmation}
+                className={this.handleInputError(errors, "password")}
                 icon="repeat"
                 iconPosition="left"
                 placeholder="Password Confirmation"
                 onChange={this.handleChange}
                 type="password"
               />
-              <Button color="orange" fluid size="large">
+              <Button
+                disabled={loading}
+                className={loading ? "loading" : ""}
+                color="orange"
+                fluid
+                size="large"
+              >
                 Submit
               </Button>
             </Segment>
