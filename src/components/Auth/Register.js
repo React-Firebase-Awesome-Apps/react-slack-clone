@@ -10,11 +10,36 @@ import {
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
-class Register extends Component {
-  state = {};
+import firebase from "../../firebase";
 
-  handleChange = () => {};
+class Register extends Component {
+  state = {
+    username: "",
+    email: "",
+    password: "",
+    passwordConfirmation: ""
+  };
+
+  handleChange = event => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
+
+  handleSubmit = event => {
+    event.preventDefault();
+    firebase.auth()
+      .createUserWithEmailAndPassword(this.state.email, this.state.password)
+      .then(user => {
+        console.log("user", { user });
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  };
+
   render() {
+    const { username, email, password, passwordConfirmation } = this.state;
     return (
       <Grid textAlign="center" verticalAlign="bottom" className="app">
         <Grid.Column style={{ maxWidth: 450 }}>
@@ -22,11 +47,12 @@ class Register extends Component {
             <Icon name="puzzle piece" color="orange" />
             Register for DevChat
           </Header>
-          <Form size="large">
+          <Form size="large" onClick={this.handleSubmit}>
             <Segment stacked>
               <Form.Input
                 fluid
                 name="username"
+                value={username}
                 icon="user"
                 iconPosition="left"
                 placeholder="Username"
@@ -35,8 +61,9 @@ class Register extends Component {
               />
               <Form.Input
                 fluid
-                name="username"
-                icon="email"
+                name="email"
+                value={email}
+                icon="mail"
                 iconPosition="left"
                 placeholder="Email Address"
                 onChange={this.handleChange}
@@ -44,7 +71,8 @@ class Register extends Component {
               />
               <Form.Input
                 fluid
-                name="username"
+                name="password"
+                value={password}
                 icon="lock"
                 iconPosition="left"
                 placeholder="Password"
@@ -53,7 +81,8 @@ class Register extends Component {
               />
               <Form.Input
                 fluid
-                name="username"
+                name="passwordConfirmation"
+                value={passwordConfirmation}
                 icon="repeat"
                 iconPosition="left"
                 placeholder="Password Confirmation"
