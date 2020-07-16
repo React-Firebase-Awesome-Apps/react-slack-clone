@@ -9,7 +9,7 @@ import {
   Icon
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
-
+import md5 from "md5"; // Used to hash messages. We use it to create a unique value.
 import firebase from "../../firebase";
 
 class Register extends Component {
@@ -64,34 +64,41 @@ class Register extends Component {
     }
   };
 
+  
+
   handleSubmit = event => {
     event.preventDefault();
     if (this.isFormValid()) {
-      this.setState({ errors: [], loading: true});
+      this.setState({ errors: [], loading: true });
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
-        .then(user => {
-          console.log("user", { user });
-          this.setState({ loading: false });
-        })
-        .catch(err => {
-          console.error(err);
-          this.setState({
-            errors: this.state.errors.concat(err),
-            loading: false
-          });
+        .then(createdUser => {
+          console.log("createdUser", { createdUser });
+          createdUser.user
+            .updateProfile({
+              displayName: this.state.username,
+              photoURL: `https://gravatar.com/avatar/${md5(
+                createdUser.user.email
+              )}?d=identicon`
+            })
+            .then(() => {
+              this.setState({ loading: false });
+            })
+            .catch(err => {
+              console.error(err);
+              this.setState({
+                errors: this.state.errors.concat(err),
+                loading: false
+              });
+            });
         });
     }
   };
   handleInputError = (errors, input) => {
-    let className = "";
-    errors.map(error => {
-      if (error.message.toLowerCase().includes(input)) {
-        className = "error";
-      }
-    });
-    return className;
+    errors.some(error =>
+      error.message.toLowerCase().includes(input) ? input : ""
+    );
   };
 
   render() {
