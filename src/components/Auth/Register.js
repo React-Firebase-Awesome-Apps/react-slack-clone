@@ -19,7 +19,8 @@ class Register extends Component {
     password: "",
     passwordConfirmation: "",
     errors: [],
-    loading: false
+    loading: false,
+    usersRef: firebase.database().ref("users")
   };
 
   displayErrors = errors =>
@@ -63,9 +64,6 @@ class Register extends Component {
       return true;
     }
   };
-
-  
-
   handleSubmit = event => {
     event.preventDefault();
     if (this.isFormValid()) {
@@ -74,7 +72,6 @@ class Register extends Component {
         .auth()
         .createUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(createdUser => {
-          console.log("createdUser", { createdUser });
           createdUser.user
             .updateProfile({
               displayName: this.state.username,
@@ -83,22 +80,41 @@ class Register extends Component {
               )}?d=identicon`
             })
             .then(() => {
+              console.log("createdUser", { createdUser });
+              this.saveUser(createdUser).then(() => {
+                console.log("User saved!");
+              });
               this.setState({ loading: false });
             })
             .catch(err => {
-              console.error(err);
+              console.error("err", err);
               this.setState({
                 errors: this.state.errors.concat(err),
                 loading: false
               });
             });
+        })
+        .catch(err => {
+          console.error(err);
+          this.setState({
+            errors: this.state.errors.concat(err),
+            loading: false
+          });
         });
     }
   };
+
   handleInputError = (errors, input) => {
     errors.some(error =>
       error.message.toLowerCase().includes(input) ? input : ""
     );
+  };
+
+  saveUser = createdUser => {
+    return this.state.usersRef.child(createdUser.user.uid).set({
+      name: createdUser.user.displayName,
+      avatar: createdUser.user.photoURL
+    });
   };
 
   render() {
