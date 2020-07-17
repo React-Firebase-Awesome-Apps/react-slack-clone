@@ -2,10 +2,10 @@ import React from "react";
 import "./App.css";
 
 import { Grid } from "semantic-ui-react";
-import ColorPanel from "../Panels/ColorPanel/ColorPanel";
-import SidePanel from "../Panels/SidePanel/SidePanel";
-import Messages from "../Panels/Messages/Messages";
-import MetaPanel from "../Panels/MetaPanel/MetaPanel";
+import ColorPanel from "./Panels/ColorPanel/ColorPanel";
+import SidePanel from "./Panels/SidePanel/SidePanel";
+import Messages from "./Panels/Messages/Messages";
+import MetaPanel from "./Panels/MetaPanel/MetaPanel";
 
 const App = () => {
   return (

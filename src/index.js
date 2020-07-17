@@ -12,13 +12,13 @@ import { createStore } from "redux";
 import { Provider, connect } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 
-import App from "./components/App";
+import App from "./App";
 import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import firebase from "../src/firebase";
-import rootReducer from "./reducers";
-import { setUser } from "./actions/index";
-import Spinner from './Spinner'
+import rootReducer from "./store/reducers";
+import { setUser } from "./store/actions/index";
+import Spinner from './components/Spinner'
 
 const store = createStore(rootReducer, composeWithDevTools());
 
