@@ -17,7 +17,7 @@ import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import firebase from "../src/firebase";
 import rootReducer from "./store/reducers";
-import { setUser } from "./store/actions/index";
+import { setUser, clearUser } from "./store/actions/index";
 import Spinner from './components/Spinner'
 
 const store = createStore(rootReducer, composeWithDevTools());
@@ -29,6 +29,9 @@ class Root extends React.Component {
         console.log(user);
         this.props.setUser(user);
         this.props.history.push("/");
+      } else {
+        this.props.history.push('/login');
+        this.props.clearUser();
       }
     });
   }
@@ -48,7 +51,7 @@ const mapStateToProps = state => ({
   isLoading: state.user.isLoading
 });
 
-const RoutWithAuth = withRouter(connect(mapStateToProps, { setUser })(Root));
+const RoutWithAuth = withRouter(connect(mapStateToProps, { setUser, clearUser })(Root));
 
 ReactDOM.render(
   <Provider store={store}>
