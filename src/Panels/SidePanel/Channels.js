@@ -19,6 +19,9 @@ class Channels extends Component {
   componentDidMount = () => {
     this.addListeners();
   };
+  componentWillUnmount = () => {
+      this.removeListeners()
+  }
   addListeners = () => {
     let loadedChannels = [];
     this.state.channelsRef.on("child_added", snap => {
@@ -34,6 +37,7 @@ class Channels extends Component {
     }
     this.setState({ firstLoad: false, activeChannel: firstChannel.id });
   };
+  removeListeners =() => this.state.channelsRef.off()
 
   closeModal = () => this.setState({ modal: false });
   openModal = () => this.setState({ modal: true });
