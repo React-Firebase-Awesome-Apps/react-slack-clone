@@ -8,15 +8,25 @@ import SidePanel from "./Panels/SidePanel/SidePanel";
 import Messages from "./Panels/Messages/Messages";
 import MetaPanel from "./Panels/MetaPanel/MetaPanel";
 
-const App = ({ currentUser }) => {
-  console.log('currentUser', currentUser);
-  
+const App = ({ currentUser, currentChannel }) => {
+  // console.log('currentUser', currentUser);
+
   return (
     <Grid columns="equal" className="app" style={{ background: "#eee" }}>
       <ColorPanel />
-      <SidePanel currentUser={currentUser} />
+      <SidePanel
+        // When passing props to multiple components, we need to pass also
+        // a unique identifier, ie a key.
+        // Check: https://reactjs.org/docs/reconciliation.html#keys
+        key={currentUser && currentUser.uid}
+        currentUser={currentUser}
+      />
       <Grid.Column style={{ marginLeft: 320 }}>
-        <Messages />
+        <Messages
+          key={currentChannel && currentChannel.id}
+          currentChannel={currentChannel}
+          currentUser={currentUser}
+        />
       </Grid.Column>
       <Grid.Column style={{ width: 4 }}>
         <MetaPanel />
@@ -26,6 +36,7 @@ const App = ({ currentUser }) => {
 };
 
 const mapStateToProps = state => ({
-  currentUser: state.user.currentUser
+  currentUser: state.user.currentUser,
+  currentChannel: state.channel.currentChannel
 });
 export default connect(mapStateToProps)(App);
