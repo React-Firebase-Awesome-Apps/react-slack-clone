@@ -9,7 +9,7 @@ body,
 /* Messages */
 .messages {
   height: 440px;
-  overflow-y: scroll
+  overflow-y: scroll;
 }
 
 /* MessagesForm */
@@ -20,4 +20,10 @@ body,
   left: 0;
   right: 1em;
   z-index: 200;
+}
+
+/* Message.js */
+.message__self {
+  border-left: 2px solid blue;
+  padding-left: 8px;
 }

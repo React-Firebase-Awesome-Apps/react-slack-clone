@@ -57,7 +57,7 @@ class MessagesForm extends Component {
   };
 
   render() {
-    const { errors, message } = this.state;
+    const { errors, message, loading } = this.state;
     return (
       <Segment className="messages__form">
         <Input
@@ -81,6 +81,7 @@ class MessagesForm extends Component {
         />
         <Button.Group icon widths="2">
           <Button
+            disabled={loading}
             onClick={this.sendMessage}
             color="green"
             content="Add reply"
