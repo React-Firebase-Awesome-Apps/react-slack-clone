@@ -17,8 +17,6 @@ class Messages extends Component {
 
   componentDidMount() {
     const { currentChannel, currentUser } = this.state;
-    // console.log(!!currentChannel, !!currentUser);
-    
     if (currentChannel && currentUser) {
       this.addListeners(currentChannel.id);
     }
@@ -38,23 +36,18 @@ class Messages extends Component {
     });
   };
 
-  displayMessages = messages => {
-      console.log("displayMessages", messages);
-      
-    return messages.length > 0 &&
-      messages.map(message => {
-        return (
-          <Message
-            key={message.timeStamp}
-            message={message}
-            user={this.state.currentUser}
-          />
-        );
-      });
-  };
+  displayMessages = messages =>
+    messages.length > 0 &&
+    messages.map(message => (
+      <Message
+        key={message.timestamp}
+        message={message}
+        user={this.state.currentUser}
+      />
+    ));
+
   render() {
-    const { messages } = this.state;
-    const { messagesRef, currentChannel, currentUser } = this.state;
+    const { messagesRef, currentChannel, currentUser, messages } = this.state;
     return (
       <Fragment>
         <MessagesHeader />
@@ -66,6 +59,7 @@ class Messages extends Component {
         </Segment>
 
         <MessagesForm
+          key={currentChannel && currentChannel.id}
           currentChannel={currentChannel}
           messagesRef={messagesRef}
           currentUser={currentUser}

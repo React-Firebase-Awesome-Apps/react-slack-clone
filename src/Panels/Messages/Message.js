@@ -8,8 +8,6 @@ const Message = ({ message, user }) => {
   };
 
   const timeFromNow = timestamp => moment(timestamp).fromNow();
-console.log('message',message, user);
-
   return (
     <Comment>
       <Comment.Avatar src={message.user.avatar} />
