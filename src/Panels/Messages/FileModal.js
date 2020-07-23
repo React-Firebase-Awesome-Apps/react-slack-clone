@@ -9,6 +9,7 @@ class FileModal extends Component {
   };
 
   addFile = event => {
+      // See README file about files[0]
     const file = event.target.files[0];
     if (!!file) {
       this.setState({ file });

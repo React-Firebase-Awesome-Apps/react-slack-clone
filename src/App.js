@@ -8,9 +8,9 @@ import SidePanel from "./Panels/SidePanel/SidePanel";
 import Messages from "./Panels/Messages/Messages";
 import MetaPanel from "./Panels/MetaPanel/MetaPanel";
 
+// We get currentUser and currentChannel from the redux store,
+// through the Provider - store in index.js.
 const App = ({ currentUser, currentChannel }) => {
-  // console.log('currentUser', currentUser);
-
   return (
     <Grid columns="equal" className="app" style={{ background: "#eee" }}>
       <ColorPanel />

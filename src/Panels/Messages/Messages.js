@@ -6,6 +6,7 @@ import MessagesHeader from "./MessagesHeader";
 import MessagesForm from "./MessagesForm";
 import Message from "./Message";
 
+// Child of App
 class Messages extends Component {
   state = {
     messagesRef: firebase.database().ref("messages"),
