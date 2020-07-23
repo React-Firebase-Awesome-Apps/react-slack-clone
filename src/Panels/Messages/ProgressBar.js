@@ -5,7 +5,7 @@ const ProgressBar = ({ uploadState, percentUploaded }) => {
     console.log('progressBar', uploadState, percentUploaded);
     
   return (
-    uploadState && (
+    uploadState === 'uploading' && (
       <Progress
         className="progress__bar"
         percent={percentUploaded}
