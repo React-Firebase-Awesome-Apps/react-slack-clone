@@ -3,6 +3,7 @@ import { Segment, Button, Input } from "semantic-ui-react";
 import firebase from "../../firebase";
 import FileModal from "./FileModal";
 
+// Child of Messages
 class MessagesForm extends Component {
   state = {
     message: "",
@@ -61,6 +62,10 @@ class MessagesForm extends Component {
     }
   };
 
+  upLoadFile = (file, metadata) => {
+    console.log(file, metadata);
+  };
+
   render() {
     const { errors, message, loading, modal } = this.state;
     return (
@@ -100,9 +105,10 @@ class MessagesForm extends Component {
             labelPosition="right"
             icon="cloud upload"
           />
-          <FileModal 
+          <FileModal
             modal={modal}
             closeModal={this.closeModal}
+            uploadFile={this.upLoadFile}
           />
         </Button.Group>
       </Segment>

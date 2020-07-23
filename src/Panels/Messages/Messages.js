@@ -15,6 +15,7 @@ class Messages extends Component {
     messagesLoading: true
   };
 
+  // We stiil need to remove listeners!!!
   componentDidMount() {
     const { currentChannel, currentUser } = this.state;
     if (currentChannel && currentUser) {
