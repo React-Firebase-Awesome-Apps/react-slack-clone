@@ -13,7 +13,7 @@ class MessagesForm extends Component {
     storageRef: firebase.storage().ref(),
     uploadState: "",
     uploadTask: null,
-    persentUploaded: 0,
+    percentUploaded: 0,
     message: "",
     channel: this.props.currentChannel,
     user: this.props.currentUser,
@@ -157,7 +157,7 @@ class MessagesForm extends Component {
       loading,
       modal,
       uploadState,
-      persentUploaded
+      percentUploaded
     } = this.state;
     return (
       <Segment className="messages__form">
@@ -204,7 +204,7 @@ class MessagesForm extends Component {
         />
         <ProgressBar
           uploadState={uploadState}
-          percentUploaded={persentUploaded}
+          percentUploaded={percentUploaded}
         />
       </Segment>
     );
