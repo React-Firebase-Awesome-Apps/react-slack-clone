@@ -13,10 +13,10 @@ class Messages extends Component {
     currentChannel: this.props.currentChannel,
     currentUser: this.props.currentUser,
     messages: [],
+    numUniqueUsers: "",
     messagesLoading: true
   };
 
-  // We stiil need to remove listeners!!!
   componentDidMount() {
     const { currentChannel, currentUser } = this.state;
     if (currentChannel && currentUser) {
@@ -35,8 +35,31 @@ class Messages extends Component {
         messages: loadedMessages,
         messagesLoading: false
       });
+      console.log(loadedMessages);
+
+      this.countUniqueUsers(loadedMessages);
     });
   };
+
+  countUniqueUsers = messages => {
+    const uniqueUsers = messages.reduce((acc, message) => {
+      // With this if check we get from every comment the user's name
+      // just once...
+      if (!acc.includes(message.user.name)) {
+        acc.push(message.user.name);
+      }
+      return acc;
+    }, []);
+    const lesThanOne = uniqueUsers.length <= 1;
+    const numUniqueUsers = `${uniqueUsers.length} user${lesThanOne ? "" : "s"}`;
+    this.setState({ numUniqueUsers });
+  };
+
+  // We stiil need to remove listeners!!!
+  // componentWillUnmount = () => {
+  //   this.removeListeners();
+  // };
+  // removeListeners = () => this.state.messagesRef.off();
 
   displayMessages = messages =>
     messages.length > 0 &&
@@ -48,11 +71,22 @@ class Messages extends Component {
       />
     ));
 
+  displayChannelName = channel => (!!channel ? `# ${channel.name}` : "");
+
   render() {
-    const { messagesRef, currentChannel, currentUser, messages } = this.state;
+    const {
+      messagesRef,
+      currentChannel,
+      currentUser,
+      messages,
+      numUniqueUsers
+    } = this.state;
     return (
       <Fragment>
-        <MessagesHeader />
+        <MessagesHeader
+          channelName={this.displayChannelName(currentChannel)}
+          numUniqueUsers={numUniqueUsers}
+        />
 
         <Segment raised>
           <Comment.Group className="messages">
