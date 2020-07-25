@@ -7,7 +7,7 @@ import {
   Route,
   withRouter
 } from "react-router-dom";
-import "semantic-ui-css/semantic.min.css";
+import "semantic-ui-css/semantic.min.css"; // for the style!!!
 import { createStore } from "redux";
 import { Provider, connect } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
@@ -23,6 +23,7 @@ import Spinner from './components/Spinner'
 const store = createStore(rootReducer, composeWithDevTools());
 
 class Root extends React.Component {
+  
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {

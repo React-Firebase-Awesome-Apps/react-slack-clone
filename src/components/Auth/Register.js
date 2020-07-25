@@ -77,10 +77,10 @@ class Register extends Component {
               displayName: this.state.username,
               photoURL: `https://gravatar.com/avatar/${md5(
                 createdUser.user.email
-              )}?d=identicon`
+              )}?d=retro`
             })
             .then(() => {
-              console.log("createdUser", { createdUser });
+              // console.log("createdUser", { createdUser });
               this.saveUser(createdUser).then(() => {
                 console.log("User saved!");
               });
@@ -96,6 +96,11 @@ class Register extends Component {
         })
         .catch(err => {
           console.error(err);
+          if (err.code === "auth/email-already-in-use") {
+            console.log('Show a translated message');
+            
+          }
+
           this.setState({
             errors: this.state.errors.concat(err),
             loading: false
