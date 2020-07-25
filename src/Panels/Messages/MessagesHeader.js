@@ -7,8 +7,11 @@ class MessagesHeader extends Component {
       channelName,
       numUniqueUsers,
       handleSearchChange,
-      searchLoading
+      searchLoading,
+      isPrivateChannel
     } = this.props;
+    console.log(isPrivateChannel);
+    
     return (
       // Use 'clearing' to float items around...
       <Segment clearing color="teal">
@@ -16,13 +19,17 @@ class MessagesHeader extends Component {
         <Header fluid="true" as="h2" floated="left" style={{ marginTop: 0 }}>
           <span>
             {channelName}
-            <Icon
-              style={{ marginLeft: 8 }}
-              name={"comment outline"}
-              color="black"
-            />
+            {!isPrivateChannel && (
+              <Icon
+                style={{ marginLeft: 8 }}
+                name={"heart"}
+                color="olive"
+              />
+            )}
           </span>
-          <Header.Subheader>{numUniqueUsers}</Header.Subheader>
+          <Header.Subheader>
+            {numUniqueUsers === "" ? "No users yet!" : numUniqueUsers}
+          </Header.Subheader>
         </Header>
         {/* Channel search input */}
         <Header floated="right">

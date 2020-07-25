@@ -49,13 +49,14 @@ class MessagesForm extends Component {
     }
     return message;
   };
+
   sendMessage = () => {
-    const { messagesRef } = this.props;
+    const { getMessagesRef  } = this.props;
     const { message, channel } = this.state;
 
     if (message) {
       this.setState({ loading: true });
-      messagesRef
+      getMessagesRef()
         .child(channel.id)
         .push()
         .set(this.createMessage())
@@ -75,6 +76,13 @@ class MessagesForm extends Component {
       });
     }
   };
+  getPath = () => {
+    if (this.props.isPrivateChannel) {
+      return `chat/private-${this.state.channel.id}`;
+    } else {
+      return "chat/public";
+    }
+  };
 
   // Mayby we should lookup the metadata and add and the end of the filePath
   // the actual image type, jpg or png.
@@ -84,8 +92,8 @@ class MessagesForm extends Component {
     // console.log("storage bucket name ", this.state.storageRef.bucket);
 
     const pathToUpload = this.state.channel.id;
-    const ref = this.props.messagesRef;
-    const filePath = `chat/public/${uuidv4()}.${urlEnd}`;
+    const ref = this.props.getMessagesRef();
+    const filePath = `${this.getPath()}/${uuidv4()}.${urlEnd}`;
     // Check the README file for lecture 33.
     this.setState(
       {

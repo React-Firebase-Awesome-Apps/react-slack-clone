@@ -10,7 +10,9 @@ import Message from "./Message";
 class Messages extends Component {
   state = {
     messagesRef: firebase.database().ref("messages"),
+    privateMessagesRef: firebase.database().ref("privateMessages"),
     currentChannel: this.props.currentChannel,
+    privateChannel: this.props.isPrivateChannel,
     currentUser: this.props.currentUser,
     messages: [],
     numUniqueUsers: "",
@@ -31,8 +33,9 @@ class Messages extends Component {
     this.addMesaggeListener(channelId);
   };
   addMesaggeListener = channelId => {
+    const ref = this.getMessagesRef();
     let loadedMessages = [];
-    this.state.messagesRef.child(channelId).on("child_added", snap => {
+    ref.child(channelId).on("child_added", snap => {
       loadedMessages.push(snap.val());
       this.setState({
         messages: loadedMessages,
@@ -40,6 +43,11 @@ class Messages extends Component {
       });
       this.countUniqueUsers(loadedMessages);
     });
+  };
+
+  getMessagesRef = () => {
+    const { messagesRef, privateMessagesRef, privateChannel } = this.state;
+    return privateChannel ? privateMessagesRef : messagesRef;
   };
 
   countUniqueUsers = messages => {
@@ -51,12 +59,12 @@ class Messages extends Component {
       }
       return acc;
     }, []);
-    const lesThanOne = uniqueUsers.length <= 1;
-    const numUniqueUsers = `${uniqueUsers.length} user${lesThanOne ? "" : "s"}`;
+    const plural = uniqueUsers.length > 1 || uniqueUsers.length === 0;
+    const numUniqueUsers = `${uniqueUsers.length} user${plural ? "s" : ""}`;
     this.setState({ numUniqueUsers });
   };
 
-  // We stiil need to remove listeners!!!
+  // We still need to remove listeners!!!
   // componentWillUnmount = () => {
   //   this.removeListeners();
   // };
@@ -72,7 +80,8 @@ class Messages extends Component {
       />
     ));
 
-  displayChannelName = channel => (!!channel ? `# ${channel.name}` : "");
+  displayChannelName = channel =>
+    !!channel ? `${this.state.privateChannel ? "@" : "#"}${channel.name}` : "";
 
   handleSearchChange = event => {
     this.setState(
@@ -98,7 +107,7 @@ class Messages extends Component {
       return acc;
     }, []);
     this.setState({ searchResults });
-    setTimeout(() => this.setState({ searchLoading: false }), 1000);
+    setTimeout(() => this.setState({ searchLoading: false }), 500);
   };
 
   render() {
@@ -110,7 +119,8 @@ class Messages extends Component {
       numUniqueUsers,
       searchTerm,
       searchResults,
-      searchLoading
+      searchLoading,
+      privateChannel
     } = this.state;
     return (
       <Fragment>
@@ -119,6 +129,7 @@ class Messages extends Component {
           channelName={this.displayChannelName(currentChannel)}
           numUniqueUsers={numUniqueUsers}
           searchLoading={searchLoading}
+          isPrivateChannel={privateChannel}
         />
 
         <Segment raised>
@@ -134,6 +145,8 @@ class Messages extends Component {
           currentChannel={currentChannel}
           messagesRef={messagesRef}
           currentUser={currentUser}
+          isPrivateChannel={privateChannel}
+          getMessagesRef={this.getMessagesRef}
         />
       </Fragment>
     );

@@ -32,15 +32,20 @@ class DirectMessages extends Component {
     });
 
     this.state.connectedRef.on("value", snap => {
-      const ref = this.state.presenceRef.child(currentUserUid);
-      ref.set(true);
-      // check README file lecture 39.
-      ref.onDisconnect().remove(err => {
-        if (err !== null) {
-          console.error(err);
-        }
-      });
+        // console.log('connectedRef', snap.val());
+        
+      if (snap.val() === true) {
+        const ref = this.state.presenceRef.child(currentUserUid);
+        ref.set(true);
+        // check README file lecture 39.
+        ref.onDisconnect().remove(err => {
+          if (err !== null) {
+            console.error(err);
+          }
+        });
+      }
     });
+
     this.state.presenceRef.on("child_added", snap => {
       if (currentUserUid !== snap.key) {
         this.addStatusToUser(snap.key);
