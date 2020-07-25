@@ -4,7 +4,23 @@ import firebase from "../../firebase";
 
 class UserPanel extends Component {
   state = {
-    user: this.props.currentUser
+    user: this.props.currentUser,
+    avatar: ""
+  };
+
+  // Do this hack to get the avatar on first load.
+  componentDidMount = () => {
+    firebase
+      .database()
+      .ref("users")
+      .on("child_added", snap => {
+        console.log(snap.val().email);
+        if (this.state.user.email === snap.val().email) {
+          console.log(snap.val().avatar);
+          const avatar = snap.val().avatar;
+          this.setState({ avatar });
+        }
+      });
   };
 
   dropdownOptions = () => [
@@ -35,7 +51,7 @@ class UserPanel extends Component {
   };
 
   render() {
-    const { user } = this.state;
+    const { user, avatar } = this.state;
     return (
       <Grid style={{ background: "#4c3c4c" }}>
         <Grid.Column>
@@ -50,12 +66,7 @@ class UserPanel extends Component {
               <Dropdown
                 trigger={
                   <span>
-                    <Image
-                      inverted="true"
-                      src={user.photoURL}
-                      spaced="right"
-                      avatar
-                    />
+                    <Image inverted="true" src={avatar} spaced="right" avatar />
                     {user.displayName}
                   </span>
                 }
