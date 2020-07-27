@@ -10,6 +10,7 @@ class DirectMessages extends Component {
     users: [],
     user: this.props.currentUser,
     usersRef: firebase.database().ref("users"),
+    //connectedRef gives us info about the user, if he is connected or not.
     connectedRef: firebase.database().ref(".info/connected"),
     presenceRef: firebase.database().ref("presence")
   };
@@ -32,9 +33,10 @@ class DirectMessages extends Component {
     });
 
     this.state.connectedRef.on("value", snap => {
-        // console.log('connectedRef', snap.val());
-        
+      
+      console.log('connectedRef out', snap.val());
       if (snap.val() === true) {
+        // console.log('connectedRef', snap.val());
         const ref = this.state.presenceRef.child(currentUserUid);
         ref.set(true);
         // check README file lecture 39.
@@ -95,7 +97,7 @@ class DirectMessages extends Component {
             <Icon name="mail" />
             DIRECT MESSAGES
           </span>{" "}
-          ({users.length}){/* Users to send direct messsages */}
+          ({users.length})
           {users.map(user => (
             <Menu.Item
               key={user.uid}

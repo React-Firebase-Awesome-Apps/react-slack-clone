@@ -14,9 +14,9 @@ class UserPanel extends Component {
       .database()
       .ref("users")
       .on("child_added", snap => {
-        console.log(snap.val().email);
+        // console.log(snap.val().email);
         if (this.state.user.email === snap.val().email) {
-          console.log(snap.val().avatar);
+          // console.log(snap.val().avatar);
           const avatar = snap.val().avatar;
           this.setState({ avatar });
         }

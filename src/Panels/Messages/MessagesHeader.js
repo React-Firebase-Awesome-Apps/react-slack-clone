@@ -10,7 +10,7 @@ class MessagesHeader extends Component {
       searchLoading,
       isPrivateChannel
     } = this.props;
-    console.log(isPrivateChannel);
+    // console.log(isPrivateChannel);
     
     return (
       // Use 'clearing' to float items around...

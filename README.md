@@ -23,5 +23,5 @@
 * As about event.target.files[0] see: [Using files from web applications](https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications)
 
 - 39
-
+* Check Q&A in Udemy, under "What is connectedRef?".
 * [onDisconnect and remove](https://firebase.google.com/docs/reference/js/firebase.database.OnDisconnect#remove)
