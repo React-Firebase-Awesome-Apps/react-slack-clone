@@ -64,11 +64,11 @@ class Messages extends Component {
     this.setState({ numUniqueUsers });
   };
 
-  // We still need to remove listeners!!!
-  // componentWillUnmount = () => {
-  //   this.removeListeners();
-  // };
-  // removeListeners = () => this.state.messagesRef.off();
+  // We need to remove listeners!!!
+  componentWillUnmount = () => {
+    this.removeListeners();
+  };
+  removeListeners = () => this.state.messagesRef.off();
 
   displayMessages = messages =>
     messages.length > 0 &&

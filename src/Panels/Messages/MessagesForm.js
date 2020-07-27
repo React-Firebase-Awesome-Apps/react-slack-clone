@@ -100,7 +100,12 @@ class MessagesForm extends Component {
         uploadState: "uploading",
         uploadTask: this.state.storageRef.child(filePath).put(file, metadata)
       },
+      // Register three observers:
       // 1st callback (from setState)
+      // 1. 'state_changed' observer, called any time the state changes
+      // Note: put() and putString() both return an UploadTask 
+      // which you can use as a promise, 
+      // or use to manage and monitor the status of the upload.
       () => {
         this.state.uploadTask.on(
           "state_changed",
@@ -111,6 +116,7 @@ class MessagesForm extends Component {
             this.setState({ percentUploaded });
           },
           // error handling (from uploadTask.on)
+          // 2. Error observer, called on failure
           err => {
             console.error(err);
             this.setState({
@@ -120,6 +126,7 @@ class MessagesForm extends Component {
             });
           },
           // callback (from uploadTask.on) to download the url of the file
+          // 3. Completion observer, called on successful completion
           () => {
             this.state.uploadTask.snapshot.ref
               .getDownloadURL()
