@@ -22,7 +22,7 @@ class MessagesHeader extends Component {
             {!isPrivateChannel && (
               <Icon
                 style={{ marginLeft: 8 }}
-                name={"heart"}
+                name={"heart outline"}
                 color="olive"
               />
             )}
