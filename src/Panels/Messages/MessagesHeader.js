@@ -8,10 +8,12 @@ class MessagesHeader extends Component {
       numUniqueUsers,
       handleSearchChange,
       searchLoading,
-      isPrivateChannel
+      isPrivateChannel,
+      handleFavoriteChannels,
+      isChannelFavorite
     } = this.props;
     // console.log(isPrivateChannel);
-    
+
     return (
       // Use 'clearing' to float items around...
       <Segment clearing color="teal">
@@ -21,9 +23,10 @@ class MessagesHeader extends Component {
             {channelName}
             {!isPrivateChannel && (
               <Icon
+                onClick={handleFavoriteChannels}
                 style={{ marginLeft: 8 }}
-                name={"heart outline"}
-                color="olive"
+                name={isChannelFavorite ? "heart" : "heart outline"}
+                color={isChannelFavorite ? "olive" : "black"}
               />
             )}
           </span>

@@ -58,7 +58,7 @@ class Channels extends Component {
       // console.log("addNotificationListeners, channel", this.state.channel.id);
 
       if (this.state.channel) {
-        console.log('this.state.notifications,', this.state.notifications,);
+        // console.log('this.state.notifications,', this.state.notifications,);
         
         // Show new messages from other channels...
         this.handleNotifications(
@@ -81,7 +81,7 @@ class Channels extends Component {
     let index = notifications.findIndex(
       notification => notification.id === channelId
     );
-    console.log("index", index);
+    // console.log("index", index);
     // console.log("snap.numChildren()", snap.numChildren());
     // console.log("handleNotifications, channelId", channelId);
     // console.log("handleNotifications, currentChannelId", currentChannelId);
@@ -107,7 +107,7 @@ class Channels extends Component {
         count: 0
       });
     }
-    console.log("notifications", notifications);
+    // console.log("notifications", notifications);
 
     this.setState({ notifications });
   };

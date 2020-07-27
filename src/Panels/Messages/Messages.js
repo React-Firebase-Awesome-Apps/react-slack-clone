@@ -11,6 +11,7 @@ class Messages extends Component {
   state = {
     messagesRef: firebase.database().ref("messages"),
     privateMessagesRef: firebase.database().ref("privateMessages"),
+    usersRef: firebase.database().ref("users"),
     currentChannel: this.props.currentChannel,
     privateChannel: this.props.isPrivateChannel,
     currentUser: this.props.currentUser,
@@ -19,13 +20,15 @@ class Messages extends Component {
     messagesLoading: true,
     searchTerm: "",
     searchLoading: false,
-    searchResults: []
+    searchResults: [],
+    isChannelFavorite: false
   };
 
   componentDidMount() {
     const { currentChannel, currentUser } = this.state;
     if (currentChannel && currentUser) {
       this.addListeners(currentChannel.id);
+      this.addUserFavoriteChannelsListener(currentChannel.id, currentUser.uid);
     }
   }
 
@@ -43,6 +46,23 @@ class Messages extends Component {
       });
       this.countUniqueUsers(loadedMessages);
     });
+  };
+
+  addUserFavoriteChannelsListener = (channelId, userId) => {
+    this.state.usersRef
+      .child(userId)
+      .child("favorite")
+      .once("value")
+      .then(data => {
+        // if (data.val() !== null)
+        // data.exists(): Returns true if this DataSnapshot contains any data.
+        // It is slightly more efficient than using snapshot.val() !== null.
+        if (data.val() !== null) {
+          const channelIds = Object.keys(data.val());
+          const prevFavorite = channelIds.includes(channelId);
+          this.setState({ isChannelFavorite: prevFavorite });
+        }
+      });
   };
 
   getMessagesRef = () => {
@@ -93,6 +113,42 @@ class Messages extends Component {
     );
   };
 
+  handleFavoriteChannels = () => {
+    this.setState(
+      prevState => ({
+        isChannelFavorite: !prevState.isChannelFavorite
+      }),
+      () => this.favoriteTheChannel()
+    );
+  };
+
+  favoriteTheChannel = () => {
+    if (this.state.isChannelFavorite) {
+      console.log("Favorite the channel");
+      this.state.usersRef
+        .child(`${this.state.currentUser.uid}/favorite`)
+        .update({
+          [this.state.currentChannel.id]: {
+            name: this.state.currentChannel.name,
+            details: this.state.currentChannel.details,
+            createdBy: {
+              name: this.state.currentChannel.createdBy.name,
+              avatar: this.state.currentChannel.createdBy.avatar
+            }
+          }
+        });
+    } else {
+      console.log("Unfavorite the channel");
+      this.state.usersRef
+        .child(`${this.state.currentUser.uid}/favorite`)
+        .remove(err => {
+          if (err !== null) {
+            console.error(err);
+          }
+        });
+    }
+  };
+
   handleSearchMessages = () => {
     const channelMessages = [...this.state.messages];
     // flag gi = global and case insensitively
@@ -120,7 +176,8 @@ class Messages extends Component {
       searchTerm,
       searchResults,
       searchLoading,
-      privateChannel
+      privateChannel,
+      isChannelFavorite
     } = this.state;
     return (
       <Fragment>
@@ -130,6 +187,8 @@ class Messages extends Component {
           numUniqueUsers={numUniqueUsers}
           searchLoading={searchLoading}
           isPrivateChannel={privateChannel}
+          isChannelFavorite={isChannelFavorite}
+          handleFavoriteChannels={this.handleFavoriteChannels}
         />
 
         <Segment raised>
