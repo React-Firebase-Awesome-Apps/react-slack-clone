@@ -7,6 +7,7 @@ import firebase from "../../firebase";
 
 class DirectMessages extends Component {
   state = {
+    activeChannel: "",
     users: [],
     user: this.props.currentUser,
     usersRef: firebase.database().ref("users"),
@@ -33,8 +34,7 @@ class DirectMessages extends Component {
     });
 
     this.state.connectedRef.on("value", snap => {
-      
-      console.log('connectedRef out', snap.val());
+      // console.log("connectedRef out", snap.val());
       if (snap.val() === true) {
         // console.log('connectedRef', snap.val());
         const ref = this.state.presenceRef.child(currentUserUid);
@@ -80,6 +80,7 @@ class DirectMessages extends Component {
     };
     this.props.setCurrentChannel(channelData);
     this.props.setPrivateChannel(true);
+    this.setActiveChannel(user.uid);
   };
   getChannelId = userId => {
     const currentUserId = this.state.user.uid;
@@ -88,8 +89,12 @@ class DirectMessages extends Component {
       : `${currentUserId}/${userId}`;
   };
 
+  setActiveChannel = userId => {
+    this.setState({ activeChannel: userId });
+  };
+
   render() {
-    const { users } = this.state;
+    const { users, activeChannel } = this.state;
     return (
       <Menu.Menu className="menu">
         <Menu.Item>
@@ -101,6 +106,7 @@ class DirectMessages extends Component {
           {users.map(user => (
             <Menu.Item
               key={user.uid}
+              active={activeChannel === user.uid}
               onClick={() => this.changeChannel(user)}
               style={{ opacity: 0.7, fontStyle: "italic" }}
             >
