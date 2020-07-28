@@ -28,7 +28,7 @@ class Login extends Component {
     });
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     if (this.isFormValid(this.state)) {
       this.setState({ errors: [], loading: true });
