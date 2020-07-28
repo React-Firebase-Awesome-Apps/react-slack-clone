@@ -57,7 +57,7 @@ class Messages extends Component {
         // if (data.val() !== null)
         // data.exists(): Returns true if this DataSnapshot contains any data.
         // It is slightly more efficient than using snapshot.val() !== null.
-        if (data.val() !== null) {
+        if (data.exists()) {
           const channelIds = Object.keys(data.val());
           const prevFavorite = channelIds.includes(channelId);
           this.setState({ isChannelFavorite: prevFavorite });
@@ -124,7 +124,7 @@ class Messages extends Component {
 
   favoriteTheChannel = () => {
     if (this.state.isChannelFavorite) {
-      console.log("Favorite the channel");
+      // console.log("Favorite the channel");
       this.state.usersRef
         .child(`${this.state.currentUser.uid}/favorite`)
         .update({
@@ -138,7 +138,7 @@ class Messages extends Component {
           }
         });
     } else {
-      console.log("Unfavorite the channel");
+      // console.log("Unfavorite the channel");
       this.state.usersRef
         .child(`${this.state.currentUser.uid}/favorite`)
         .remove(err => {

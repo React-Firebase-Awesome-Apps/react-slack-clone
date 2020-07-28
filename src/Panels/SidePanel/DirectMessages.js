@@ -33,6 +33,7 @@ class DirectMessages extends Component {
       }
     });
 
+    // Check if the user in on or off -line.
     this.state.connectedRef.on("value", snap => {
       // console.log("connectedRef out", snap.val());
       if (snap.val() === true) {
@@ -62,7 +63,7 @@ class DirectMessages extends Component {
 
   addStatusToUser = (userId, connected = true) => {
     const updatedUsers = this.state.users.reduce((acc, user) => {
-      if (user.uid !== userId) {
+      if (user.uid === userId) {
         user["status"] = `${connected ? "online" : "offline"}`;
       }
       return acc.concat(user);
