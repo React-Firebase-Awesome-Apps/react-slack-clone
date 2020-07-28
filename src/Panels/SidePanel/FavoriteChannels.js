@@ -1,15 +1,52 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Menu, Icon } from "semantic-ui-react";
+
+import firebase from "../../firebase";
 import { setCurrentChannel, setPrivateChannel } from "../../store/actions";
 
-import { Menu, Icon, Label } from "semantic-ui-react";
-
-class FavoriteChannels
- extends Component {
+// Child of SidePanel
+class FavoriteChannels extends Component {
   state = {
-    starredChannels: [],
-    activeChannel: ""
+    activeChannel: "",
+    favoriteChannels: [],
+    user: this.props.currentUser,
+    usersRef: firebase.database().ref("users")
   };
+
+  componentDidMount() {
+    if (this.state.user) {
+      this.addListeners(this.state.user.uid);
+    }
+  }
+
+  addListeners = userId => {
+    // 1. When we favorite a channel.
+    this.state.usersRef
+      .child(userId)
+      .child("favorite")
+      .on("child_added", snap => {
+        const favoriteChannel = { id: snap.key, ...snap.val() };
+        this.setState({
+          favoriteChannels: [...this.state.favoriteChannels, favoriteChannel]
+        });
+      });
+
+    // 2. When we unfavorite a channel.
+    this.state.usersRef
+      .child(userId)
+      .child("favorite")
+      .on("child_removed", snap => {
+        const channelToRemove = { id: snap.key, ...snap.val() };
+        const filteredChannels = this.state.favoriteChannels.filter(channel => {
+          return channel.id !== channelToRemove.id;
+        });
+        this.setState({
+          favoriteChannels: filteredChannels
+        });
+      });
+  };
+
   changeChannel = channel => {
     this.setActiveChannel(channel);
     this.props.setCurrentChannel(channel);
@@ -18,10 +55,10 @@ class FavoriteChannels
   setActiveChannel = channel => {
     this.setState({ activeChannel: channel.id });
   };
-  displayChannels = starredChannels => {
+  displayChannels = favoriteChannels => {
     return (
-      starredChannels.length > 0 &&
-      starredChannels.map(channel => (
+      favoriteChannels.length > 0 &&
+      favoriteChannels.map(channel => (
         <Menu.Item
           key={channel.id}
           onClick={() => this.changeChannel(channel)}
@@ -29,9 +66,9 @@ class FavoriteChannels
           name={channel.name}
           style={{ opacity: "0.7" }}
         >
-          {this.getNotificationsCount(channel) && (
+          {/* {this.getNotificationsCount(channel) && (
             <Label color="red">{this.getNotificationsCount(channel)} </Label>
-          )}
+          )} */}
           # {channel.name}
         </Menu.Item>
       ))
@@ -39,7 +76,7 @@ class FavoriteChannels
   };
 
   render() {
-    const { starredChannels } = this.state;
+    const { favoriteChannels } = this.state;
     return (
       <Menu.Menu className="menu">
         <Menu.Item>
@@ -47,13 +84,14 @@ class FavoriteChannels
             <Icon name="heart outline" />
             Favorite Channels
           </span>{" "}
-          ({starredChannels.length})
+          ({favoriteChannels.length})
         </Menu.Item>
-        {this.displayChannels(starredChannels)}
+        {this.displayChannels(favoriteChannels)}
       </Menu.Menu>
     );
   }
 }
 
-export default connect(null, { setCurrentChannel, setPrivateChannel })(FavoriteChannels
-  );
+export default connect(null, { setCurrentChannel, setPrivateChannel })(
+  FavoriteChannels
+);
