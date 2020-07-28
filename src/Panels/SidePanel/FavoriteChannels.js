@@ -24,7 +24,7 @@ class FavoriteChannels extends Component {
     // 1. When we favorite a channel.
     this.state.usersRef
       .child(userId)
-      .child("favorite")
+      .child("favorites")
       .on("child_added", snap => {
         const favoriteChannel = { id: snap.key, ...snap.val() };
         this.setState({
@@ -35,7 +35,7 @@ class FavoriteChannels extends Component {
     // 2. When we unfavorite a channel.
     this.state.usersRef
       .child(userId)
-      .child("favorite")
+      .child("favorites")
       .on("child_removed", snap => {
         const channelToRemove = { id: snap.key, ...snap.val() };
         const filteredChannels = this.state.favoriteChannels.filter(channel => {

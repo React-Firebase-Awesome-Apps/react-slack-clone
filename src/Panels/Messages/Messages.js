@@ -51,7 +51,7 @@ class Messages extends Component {
   addUserFavoriteChannelsListener = (channelId, userId) => {
     this.state.usersRef
       .child(userId)
-      .child("favorite")
+      .child("favorites")
       .once("value")
       .then(data => {
         // if (data.val() !== null)
@@ -123,24 +123,30 @@ class Messages extends Component {
   };
 
   favoriteTheChannel = () => {
-    if (this.state.isChannelFavorite) {
+    const {
+      usersRef,
+      currentChannel,
+      currentUser,
+      isChannelFavorite
+    } = this.state;
+    
+    if (isChannelFavorite) {
       // console.log("Favorite the channel");
-      this.state.usersRef
-        .child(`${this.state.currentUser.uid}/favorite`)
-        .update({
-          [this.state.currentChannel.id]: {
-            name: this.state.currentChannel.name,
-            details: this.state.currentChannel.details,
-            createdBy: {
-              name: this.state.currentChannel.createdBy.name,
-              avatar: this.state.currentChannel.createdBy.avatar
-            }
+      usersRef.child(`${currentUser.uid}/favorites`).update({
+        [currentChannel.id]: {
+          name: currentChannel.name,
+          details: currentChannel.details,
+          createdBy: {
+            name: currentChannel.createdBy.name,
+            avatar: currentChannel.createdBy.avatar
           }
-        });
+        }
+      });
     } else {
       // console.log("Unfavorite the channel");
-      this.state.usersRef
-        .child(`${this.state.currentUser.uid}/favorite`)
+      usersRef
+        .child(`${currentUser.uid}/favorites`)
+        .child(currentChannel.id)
         .remove(err => {
           if (err !== null) {
             console.error(err);
