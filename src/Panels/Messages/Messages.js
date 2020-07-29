@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { Segment, Comment } from "semantic-ui-react";
-import firebase from "../../firebase";
 
+import firebase from "../../firebase";
+import { connect } from "react-redux";
+import { setUserPosts } from "../../store/actions";
 import MessagesHeader from "./MessagesHeader";
 import MessagesForm from "./MessagesForm";
 import Message from "./Message";
@@ -45,6 +47,7 @@ class Messages extends Component {
         messagesLoading: false
       });
       this.countUniqueUsers(loadedMessages);
+      this.countUserPosts(loadedMessages);
     });
   };
 
@@ -82,6 +85,21 @@ class Messages extends Component {
     const plural = uniqueUsers.length > 1 || uniqueUsers.length === 0;
     const numUniqueUsers = `${uniqueUsers.length} user${plural ? "s" : ""}`;
     this.setState({ numUniqueUsers });
+  };
+
+  countUserPosts = messages => {
+    let userPosts = messages.reduce((acc, message) => {
+      if (message.user.name in acc) {
+        acc[message.user.name].count += 1;
+      } else {
+        acc[message.user.name] = {
+          avatar: message.user.avatar,
+          count: 1
+        };
+      }
+      return acc;
+    }, {});
+    this.props.setUserPosts(userPosts);
   };
 
   // We need to remove listeners!!!
@@ -129,7 +147,7 @@ class Messages extends Component {
       currentUser,
       isChannelFavorite
     } = this.state;
-    
+
     if (isChannelFavorite) {
       // console.log("Favorite the channel");
       usersRef.child(`${currentUser.uid}/favorites`).update({
@@ -218,4 +236,4 @@ class Messages extends Component {
   }
 }
 
-export default Messages;
+export default connect(null, { setUserPosts })(Messages);

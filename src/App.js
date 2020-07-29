@@ -10,7 +10,8 @@ import MetaPanel from "./Panels/MetaPanel/MetaPanel";
 
 // We get currentUser and currentChannel from the redux store,
 // through the Provider - store in index.js.
-const App = ({ currentUser, currentChannel, isPrivateChannel }) => {
+const App = ({ currentUser, currentChannel, isPrivateChannel, userPosts }) => {
+  
   return (
     <Grid columns="equal" className="app" style={{ background: "#eee" }}>
       <ColorPanel />
@@ -34,6 +35,7 @@ const App = ({ currentUser, currentChannel, isPrivateChannel }) => {
           currentChannel={currentChannel}
           key={currentChannel && currentChannel.id}
           isPrivateChannel={isPrivateChannel}
+          userPosts={userPosts}
         />
       </Grid.Column>
     </Grid>
@@ -43,6 +45,7 @@ const App = ({ currentUser, currentChannel, isPrivateChannel }) => {
 const mapStateToProps = state => ({
   currentUser: state.user.currentUser,
   currentChannel: state.channel.currentChannel,
-  isPrivateChannel: state.channel.isPrivateChannel
+  isPrivateChannel: state.channel.isPrivateChannel,
+  userPosts: state.channel.userPosts
 });
 export default connect(mapStateToProps)(App);

@@ -18,12 +18,11 @@ import Register from "./components/Auth/Register";
 import firebase from "../src/firebase";
 import rootReducer from "./store/reducers";
 import { setUser, clearUser } from "./store/actions/index";
-import Spinner from './components/Spinner'
+import Spinner from "./components/Spinner";
 
 const store = createStore(rootReducer, composeWithDevTools());
 
 class Root extends React.Component {
-  
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -31,14 +30,16 @@ class Root extends React.Component {
         this.props.setUser(user);
         this.props.history.push("/"); // we can use 'history' because of withRouter.
       } else {
-        this.props.history.push('/login');
+        this.props.history.push("/login");
         this.props.clearUser();
       }
     });
   }
 
   render() {
-    return this.props.isLoading ? <Spinner /> : (
+    return this.props.isLoading ? (
+      <Spinner />
+    ) : (
       <Switch>
         <Route path="/" exact component={App} />
         <Route path="/login" component={Login} />
@@ -52,7 +53,9 @@ const mapStateToProps = state => ({
   isLoading: state.user.isLoading
 });
 
-const RoutWithAuth = withRouter(connect(mapStateToProps, { setUser, clearUser })(Root));
+const RoutWithAuth = withRouter(
+  connect(mapStateToProps, { setUser, clearUser })(Root)
+);
 
 ReactDOM.render(
   <Provider store={store}>
