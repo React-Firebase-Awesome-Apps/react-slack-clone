@@ -11,10 +11,14 @@ import MetaPanel from "./Panels/MetaPanel/MetaPanel";
 // We get currentUser and currentChannel from the redux store,
 // through the Provider - store in index.js.
 const App = ({ currentUser, currentChannel, isPrivateChannel, userPosts }) => {
+  // console.log('app', currentUser);
   
   return (
     <Grid columns="equal" className="app" style={{ background: "#eee" }}>
-      <ColorPanel />
+      <ColorPanel
+        key={currentUser && currentUser.name}
+        currentUser={currentUser}
+      />
       <SidePanel
         // When passing props to multiple components, we need to pass also
         // a unique identifier, ie a key.
@@ -33,7 +37,7 @@ const App = ({ currentUser, currentChannel, isPrivateChannel, userPosts }) => {
       <Grid.Column style={{ width: 4 }}>
         <MetaPanel
           currentChannel={currentChannel}
-          key={currentChannel && currentChannel.id}
+          key={currentChannel && currentChannel.name}
           isPrivateChannel={isPrivateChannel}
           userPosts={userPosts}
         />
