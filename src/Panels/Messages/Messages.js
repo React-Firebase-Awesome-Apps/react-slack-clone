@@ -23,7 +23,8 @@ class Messages extends Component {
     searchTerm: "",
     searchLoading: false,
     searchResults: [],
-    isChannelFavorite: false
+    isChannelFavorite: false,
+    photoURL: ""
   };
 
   componentDidMount() {
@@ -31,6 +32,16 @@ class Messages extends Component {
     if (currentChannel && currentUser) {
       this.addListeners(currentChannel.id);
       this.addUserFavoriteChannelsListener(currentChannel.id, currentUser.uid);
+    }
+
+    if (!!this.state.currentUser) {
+      firebase
+        .database()
+        .ref(`users/${this.state.currentUser.uid}`)
+        .on("value", snapshot => {
+          console.log(snapshot.val());
+          this.setState({ photoURL: snapshot.val().avatar });
+        });
     }
   }
 
@@ -114,6 +125,7 @@ class Messages extends Component {
       <Message
         key={message.timestamp}
         message={message}
+        avatar={this.state.photoURL}
         user={this.state.currentUser}
       />
     ));
@@ -201,7 +213,8 @@ class Messages extends Component {
       searchResults,
       searchLoading,
       privateChannel,
-      isChannelFavorite
+      isChannelFavorite,
+      photoURL
     } = this.state;
     return (
       <Fragment>
@@ -230,6 +243,7 @@ class Messages extends Component {
           currentUser={currentUser}
           isPrivateChannel={privateChannel}
           getMessagesRef={this.getMessagesRef}
+          avatar={photoURL}
         />
       </Fragment>
     );

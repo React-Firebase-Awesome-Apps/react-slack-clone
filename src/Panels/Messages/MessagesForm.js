@@ -31,6 +31,7 @@ class MessagesForm extends Component {
 
   createMessage = (fileUrl = null) => {
     const { user, channel } = this.state;
+    const { avatar } = this.props;
     const message = {
       timestamp: firebase.database.ServerValue.TIMESTAMP,
       channelName: channel.name,
@@ -39,7 +40,7 @@ class MessagesForm extends Component {
         id: user.uid,
         name: user.displayName,
         email: user.email,
-        avatar: user.photoURL
+        avatar: !!avatar ? avatar : user.photoURL
       }
     };
     if (fileUrl !== null) {
@@ -51,7 +52,7 @@ class MessagesForm extends Component {
   };
 
   sendMessage = () => {
-    const { getMessagesRef  } = this.props;
+    const { getMessagesRef } = this.props;
     const { message, channel } = this.state;
 
     if (message) {
@@ -103,8 +104,8 @@ class MessagesForm extends Component {
       // Register three observers:
       // 1st callback (from setState)
       // 1. 'state_changed' observer, called any time the state changes
-      // Note: put() and putString() both return an UploadTask 
-      // which you can use as a promise, 
+      // Note: put() and putString() both return an UploadTask
+      // which you can use as a promise,
       // or use to manage and monitor the status of the upload.
       () => {
         this.state.uploadTask.on(
