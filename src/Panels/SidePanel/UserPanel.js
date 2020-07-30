@@ -20,7 +20,14 @@ class UserPanel extends Component {
     modal: false,
     previewImage: "",
     croppedImage: "",
-    blob: ""
+    blob: "",
+    metadata: {
+      contentType: "image/jpeg"
+    },
+    uploadCroppedImage: "",
+    storageRef: firebase.storage().ref(),
+    userRef: firebase.auth().currentUser,
+    usersRef: firebase.database().ref("users")
   };
 
   // Do this hack to get the avatar on first load.
@@ -77,9 +84,42 @@ class UserPanel extends Component {
     if (this.avatarEditor) {
       this.avatarEditor.getImageScaledToCanvas().toBlob(blob => {
         let imageUrl = URL.createObjectURL(blob);
-        this.setState({ croppedImage: imageUrl });
+        this.setState({ croppedImage: imageUrl, blob });
       });
     }
+  };
+
+  uploadCroppedImage = () => {
+    const { storageRef, userRef, blob, metadata } = this.state;
+
+    storageRef
+      .child(`avatars/user-${userRef.uid}`)
+      .put(blob, metadata)
+      .then(snap => {
+        snap.ref.getDownloadURL().then(downloadURL => {
+          this.setState({ uploadCroppedImage: downloadURL }, () => {
+            this.changeAvatar();
+          });
+        });
+      });
+  };
+
+  changeAvatar = () => {
+    this.state.userRef
+      .updateProfile({
+        photoURL: this.state.uploadCroppedImage
+      })
+      .then(() => {
+        console.log("PhotoURL updated");
+        this.closeModal();
+      })
+      .catch(err => console.error(err));
+
+    this.state.usersRef
+      .child(this.state.user.uid)
+      .update({ avatar: this.state.uploadCroppedImage })
+      .then(() => console.log("User Avatar updated"))
+      .catch(err => console.error(err));
   };
 
   handleSignout = () => {
@@ -157,7 +197,11 @@ class UserPanel extends Component {
             </Modal.Content>
             <Modal.Actions>
               {croppedImage && (
-                <Button onClick={() => {}} color="green" inverted>
+                <Button
+                  onClick={this.uploadCroppedImage}
+                  color="green"
+                  inverted
+                >
                   <Icon name="save" />
                   Change Avatar
                 </Button>
