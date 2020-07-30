@@ -11,7 +11,6 @@ import MetaPanel from "./Panels/MetaPanel/MetaPanel";
 // We get currentUser and currentChannel from the redux store,
 // through the Provider - store in index.js.
 const App = ({ currentUser, currentChannel, isPrivateChannel, userPosts }) => {
-  // console.log('app', currentUser);
   
   return (
     <Grid columns="equal" className="app" style={{ background: "#eee" }}>

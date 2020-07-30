@@ -11,8 +11,10 @@ import {
   Segment
 } from "semantic-ui-react";
 import { SliderPicker } from "react-color";
+import { connect } from "react-redux";
 
 import firebase from "../../firebase";
+import { setColors } from "../../store/actions";
 
 class ColorPanel extends Component {
   state = {
@@ -67,10 +69,12 @@ class ColorPanel extends Component {
     colors.map((color, i) => (
       <Fragment key={i}>
         <Divider />
-        <div className="color__container">
-       
+        <div
+          className="color__container"
+          onClick={() => this.props.setColors(color.primary, color.secondary)}
+        >
           <div className="color__square" style={{ background: color.primary }}>
-          <div
+            <div
               className="color__overlay"
               style={{ background: color.secondary }}
             />
@@ -129,4 +133,4 @@ class ColorPanel extends Component {
   }
 }
 
-export default ColorPanel;
+export default connect(null, { setColors })(ColorPanel);
