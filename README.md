@@ -39,10 +39,30 @@ Check Q&A in Udemy, under "What is connectedRef?".
 
   The child_added event is typically used when retrieving a list of items from the database. Unlike value which returns the entire contents of the location, child_added is triggered once for each existing child and then again every time a new child is added to the specified path. The event callback is passed a snapshot containing the new child's data. For ordering purposes, it is also passed a second argument containing the key of the previous child.
 
-The findIndex() method returns the index of the first element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
+  The findIndex() method returns the index of the first element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
 
-About snap.numChildern() and more... check: [firebase. database. DataSnapshot](https://firebase.google.com/docs/reference/js/firebase.database.DataSnapshot#numchildren)
+  About snap.numChildern() and more... check: [firebase. database. DataSnapshot](https://firebase.google.com/docs/reference/js/firebase.database.DataSnapshot#numchildren)
 
 - 49
 
 [in operator ](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in)
+
+- 54
+  About [FileReader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader) Object:
+  The FileReader object lets web applications asynchronously read the contents of files (or raw data buffers) stored on the user's computer, using File or Blob objects to specify the file or data to read.
+
+  About [FileReader.readAsDataURL()](https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
+  The readAsDataURL method is used to read the contents of the specified Blob or File. When the read operation is finished, the readyState becomes DONE, and the loadend is triggered. At that time, the **result** attribute contains the data as a data: URL representing the file's data as a base64 encoded string.
+  Also: [File and FileReader](https://javascript.info/file).
+
+About getImageScaledToCanvas:
+[react-avatar-editor](https://www.npmjs.com/package/react-avatar-editor)
+
+```js
+// If you want the image resized to the canvas size (also a HTMLCanvasElement)
+const canvasScaled = this.editor.getImageScaledToCanvas();
+```
+
+[HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) The HTMLCanvasElement.toBlob() method creates a Blob object representing the image contained in the canvas; this file may be cached on the disk or stored in memory at the discretion of the user agent.
+
+[getDownloadURL()](https://firebase.google.com/docs/storage/web/download-files) from Firebase.

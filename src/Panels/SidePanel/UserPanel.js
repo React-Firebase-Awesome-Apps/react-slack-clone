@@ -81,6 +81,7 @@ class UserPanel extends Component {
   };
 
   handleCrop = () => {
+    // ref from AvatarEditor
     if (this.avatarEditor) {
       this.avatarEditor.getImageScaledToCanvas().toBlob(blob => {
         let imageUrl = URL.createObjectURL(blob);
@@ -91,7 +92,6 @@ class UserPanel extends Component {
 
   uploadCroppedImage = () => {
     const { storageRef, userRef, blob, metadata } = this.state;
-
     storageRef
       .child(`avatars/user-${userRef.uid}`)
       .put(blob, metadata)
@@ -120,6 +120,8 @@ class UserPanel extends Component {
       .update({ avatar: this.state.uploadCroppedImage })
       .then(() => console.log("User Avatar updated"))
       .catch(err => console.error(err));
+
+      // Update the also the avatar in messages.user.avatar...
   };
 
   handleSignout = () => {
