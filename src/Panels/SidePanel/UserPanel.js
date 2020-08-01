@@ -27,7 +27,9 @@ class UserPanel extends Component {
     uploadCroppedImage: "",
     storageRef: firebase.storage().ref(),
     userRef: firebase.auth().currentUser,
-    usersRef: firebase.database().ref("users")
+    usersRef: firebase.database().ref("users"),
+    messagesRef: firebase.database().ref("messages")
+    // channel: this.props.currentChannel // Note: We removed the passing prop in App and SidePanel
   };
 
   // Do this hack to get the avatar on first load.
@@ -68,6 +70,7 @@ class UserPanel extends Component {
     }
   ];
 
+  // Check Readme, 54.
   handleChange = event => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -80,6 +83,7 @@ class UserPanel extends Component {
     }
   };
 
+  // Check Readme, 54.
   handleCrop = () => {
     // ref from AvatarEditor
     if (this.avatarEditor) {
@@ -90,6 +94,7 @@ class UserPanel extends Component {
     }
   };
 
+  // Check Readme, 54.
   uploadCroppedImage = () => {
     const { storageRef, userRef, blob, metadata } = this.state;
     storageRef
@@ -121,7 +126,22 @@ class UserPanel extends Component {
       .then(() => console.log("User Avatar updated"))
       .catch(err => console.error(err));
 
-      // Update the also the avatar in messages.user.avatar...
+    // Maybe the best way to change the avatar also in messages,
+    // would be to do it here...
+    // But we have only the channel id of the current Channel
+    // and we cannot find a way to get the id of each message...
+    // if (!!this.state.channel) {
+    //   console.log("this.state.channel.id", this.state.channel.id);
+    //   this.state.messagesRef
+    //     .child(`${this.state.channel.id}`)
+    //     .once("value", snap => {
+    //       console.log("query", snap.val());
+    //       if (snap.exists()) {
+    //         if (snap.val() === this.state.user.uid) {
+    //         }
+    //       }
+    //     });
+    // }
   };
 
   handleSignout = () => {
