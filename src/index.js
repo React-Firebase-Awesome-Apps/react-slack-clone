@@ -27,11 +27,11 @@ class Root extends React.Component {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         // console.log(user);
-        this.props.setUser(user);
+        this.props.setUser(user); // we can use setUser action because of 'connect'.
         this.props.history.push("/"); // we can use 'history' because of withRouter.
       } else {
         this.props.history.push("/login");
-        this.props.clearUser();
+        this.props.clearUser(); // Why do we need that? It sets isLoading to false, while w didn't set it to true anywhere.
       }
     });
   }
@@ -46,12 +46,15 @@ class Root extends React.Component {
         <Route path="/register" component={Register} />
       </Switch>
     );
-  }
+  }  
 }
 
 const mapStateToProps = state => ({
   isLoading: state.user.isLoading
 });
+
+/* Use 'connect' to set user data on global state. I allows us to connect 
+redux state and actions with a component. */
 
 const RoutWithAuth = withRouter(
   connect(mapStateToProps, { setUser, clearUser })(Root)

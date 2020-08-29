@@ -225,6 +225,7 @@ class Channels extends Component {
           <Modal.Content>
             <Form onSubmit={this.handleSubmit}>
               <Form.Field>
+                {/* fluid = take the full width */}
                 <Input
                   fluid
                   label="Name of channel"
@@ -235,7 +236,7 @@ class Channels extends Component {
               <Form.Field>
                 <Input
                   fluid
-                  label="Name of channel"
+                  label="About the channel"
                   name="channelDetails"
                   onChange={this.handleChange}
                 />

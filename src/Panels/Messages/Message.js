@@ -9,16 +9,18 @@ class Message extends Component {
     avatar: this.props.avatar
   };
 
-  isOwnMessage = (message, user) => {
-    return message.user.id === user.uid ? "message__self" : "";
-  };
-
   componentDidMount = () => {
     const { message, user } = this.state;
     if (message.user.id !== user.uid) {
       this.setState({ avatar: message.user.avatar });
     }
   };
+
+  isOwnMessage = (message, user) => {
+    return message.user.id === user.uid ? "message__self" : "";
+  };
+
+
 
   isImage = message => {
     return (

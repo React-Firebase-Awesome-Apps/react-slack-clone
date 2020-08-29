@@ -9,15 +9,19 @@
 rm -rf .git => to remove the version control we downloaded.
 
 - 5
-
-Firebase uses websockets that make data transfer very fast!
+ - Firebase uses websockets that make data transfer very fast!
 
 - 10
+    - check md5 library. It's normally used to hash messages. But we use it here,   in Register.js to create a unique valuew to provide to gravatar url.
+    - **Check** on lecture's video @2:50 how to save in console the logged object in global state!
 
-check md5 library. It's normally used to hash messages. But we use it here, in Register.js to create a unique valuew to provide to gravatar url.
+- 12
+    - Use of ```WithRouter```
 
-- **Check** on lecture's video @2:50 how to save in console the logged object in global state!
-
+- 28 
+    - see how we use ```push`` to first save the channel.id and then ```set``` to save the message! [Saving Data](https://firebase.google.com/docs/database/admin/save-data)
+    - about firebase timestamp. Docs: "A placeholder value for auto-populating the current timestamp (time since the Unix epoch, in milliseconds) as determined by the Firebase servers."
+    - Check logic: If user tries to send the message without writing anything, we save an error message in state. Then we use that to indicate to user where and what went wrong. 
 - 33
 
 [Firebase - Upload Files on Web](https://firebase.google.com/docs/storage/web/upload-files)
