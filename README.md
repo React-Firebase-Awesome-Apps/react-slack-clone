@@ -21,31 +21,39 @@ rm -rf .git => to remove the version control we downloaded.
 - 28 
     - see how we use ```push`` to first save the channel.id and then ```set``` to save the message! [Saving Data](https://firebase.google.com/docs/database/admin/save-data)
     - about firebase timestamp. Docs: "A placeholder value for auto-populating the current timestamp (time since the Unix epoch, in milliseconds) as determined by the Firebase servers."
-    - Check logic: If user tries to send the message without writing anything, we save an error message in state. Then we use that to indicate to user where and what went wrong. 
-- 33
+    - Check logic: If user tries to send the message without writing anything, we save an error message in state. Then we use that to indicate to user where and what went wrong.
 
-[Firebase - Upload Files on Web](https://firebase.google.com/docs/storage/web/upload-files)
-As about event.target.files[0] see: [Using files from web applications](https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications)
+- 30
+    - Check logic: using a function to set the className...
+
+- 32
+    - check if selected data is a picture with [mime-types](https://www.npmjs.com/package/mime-types)
+
+- 33
+    - [Firebase - Upload Files on Web](https://firebase.google.com/docs/storage/web/upload-files)
+    - As about event.target.files[0] see: [Using files from web applications](https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications)
+
+- 37
+    - **Search** messages...
 
 - 39
-
-Check Q&A in Udemy, under "What is connectedRef?".
-[onDisconnect and remove](https://firebase.google.com/docs/reference/js/firebase.database.OnDisconnect#remove)
+    - Check Q&A in Udemy, under "What is connectedRef?".
+    - [onDisconnect and remove](https://firebase.google.com/docs/reference/js/firebase.database.OnDisconnect#remove)
 
 - 43
-  [Read Event Types in Java and Node.js](https://firebase.google.com/docs/database/admin/retrieve-data)
+  - [Read Event Types in Java and Node.js](https://firebase.google.com/docs/database/admin/retrieve-data)
 
-  Value:
+    Value:
 
-  The value event is used to read a static snapshot of the contents at a given database path, as they existed at the time of the read event. It is triggered once with the initial data and again every time the data changes. The event callback is passed a snapshot containing all data at that location, including child data. In the code example above, value returned all of the blog posts in your app. Everytime a new blog post is added, the callback function will return all of the posts.
+    The value event is used to read a static snapshot of the contents at a given database path, as they existed at the time of the read event. It is triggered once with the initial data and again every time the data changes. The event callback is passed a snapshot containing all data at that location, including child data. In the code example above, value returned all of the blog posts in your app. Everytime a new blog post is added, the callback function will return all of the posts.
 
-  Child Added:
+    Child Added:
 
-  The child_added event is typically used when retrieving a list of items from the database. Unlike value which returns the entire contents of the location, child_added is triggered once for each existing child and then again every time a new child is added to the specified path. The event callback is passed a snapshot containing the new child's data. For ordering purposes, it is also passed a second argument containing the key of the previous child.
+    The child_added event is typically used when retrieving a list of items from the database. Unlike value which returns the entire contents of the location, child_added is triggered once for each existing child and then again every time a new child is added to the specified path. The event callback is passed a snapshot containing the new child's data. For ordering purposes, it is also passed a second argument containing the key of the previous child.
 
-  The findIndex() method returns the index of the first element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
+  - The ```findIndex()``` method returns the index of the first element in the array that satisfies the provided testing function. Otherwise, it returns -1, indicating that no element passed the test.
 
-  About snap.numChildern() and more... check: [firebase. database. DataSnapshot](https://firebase.google.com/docs/reference/js/firebase.database.DataSnapshot#numchildren)
+  - About snap.numChildern() and more... check: [firebase. database. DataSnapshot](https://firebase.google.com/docs/reference/js/firebase.database.DataSnapshot#numchildren)
 
 - 49
 

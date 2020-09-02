@@ -55,7 +55,7 @@ class Channels extends Component {
   addNotificationListener = channelId => {
     this.state.messagesRef.child(channelId).on("value", snap => {
       // console.log("addNotificationListeners, channelId", channelId);
-      // console.log("addNotificationListeners, channel", this.state.channel.id);
+      // console.log("addNotificationListeners, channel", this.state.channel);
 
       if (this.state.channel) {
         // console.log('this.state.notifications,', this.state.notifications,);
@@ -78,6 +78,7 @@ class Channels extends Component {
 
     let lastTotal = 0;
     // check if we have any notification for a given channel
+    // Note: changing the value of the argument of the function, makes the function not pure...
     let index = notifications.findIndex(
       notification => notification.id === channelId
     );
@@ -86,13 +87,12 @@ class Channels extends Component {
     // console.log("handleNotifications, channelId", channelId);
     // console.log("handleNotifications, currentChannelId", currentChannelId);
 
-
     if (index !== -1) {
       if (channelId !== currentChannelId) {
-        // console.log("lastTotal", lastTotal);
-
+        
         lastTotal = notifications[index].total;
-
+        // console.log(" handleNotifications lastTotal", lastTotal);
+        
         if (snap.numChildren() - lastTotal > 0) {
           notifications[index].count = snap.numChildren() - lastTotal;
         }
@@ -108,7 +108,7 @@ class Channels extends Component {
       });
     }
     // console.log("notifications", notifications);
-
+   
     this.setState({ notifications });
   };
 
@@ -138,7 +138,7 @@ class Channels extends Component {
       .then(() => {
         this.setState({ channelName: "", channelDetails: "" });
         this.closeModal();
-        console.log("channel added");
+        // console.log("channel added");
       })
       .catch(err => console.error(err));
   };
@@ -158,9 +158,11 @@ class Channels extends Component {
     this.clearNotifications();
     this.setState({ channel });
   };
+
   setActiveChannel = channel => {
     this.setState({ activeChannel: channel.id });
   };
+
   clearNotifications = () => {
     let index = this.state.notifications.findIndex(
       notification => notification.id === this.state.channel.id

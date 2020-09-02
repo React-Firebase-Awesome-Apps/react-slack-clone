@@ -85,7 +85,7 @@ class MessagesForm extends Component {
     }
   };
 
-  // Mayby we should lookup the metadata and add and the end of the filePath
+  // Mayby we should lookup the metadata and add at the end of the filePath
   // the actual image type, jpg or png.
   // - Done!
   upLoadFile = (file, metadata) => {
@@ -104,7 +104,7 @@ class MessagesForm extends Component {
       // Register three observers:
       // 1st callback (from setState)
       // 1. 'state_changed' observer, called any time the state changes
-      // Note: put() and putString() both return an UploadTask
+      // Firebase note: put() and putString() both return an UploadTask
       // which you can use as a promise,
       // or use to manage and monitor the status of the upload.
       () => {
