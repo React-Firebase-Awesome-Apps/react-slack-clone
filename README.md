@@ -5,8 +5,8 @@
 ### Lectures Notes:
 
 - 4
-
-rm -rf .git => to remove the version control we downloaded.
+    - rm -rf .git => to remove the version control we downloaded.
+    - From Q&A: [Why we cant npm i or yarn](https://www.udemy.com/course/build-a-slack-chat-app-with-react-redux-and-firebase/learn/lecture/11852874#questions/12214548)
 
 - 5
  - Firebase uses websockets that make data transfer very fast!
@@ -55,9 +55,21 @@ rm -rf .git => to remove the version control we downloaded.
 
   - About snap.numChildern() and more... check: [firebase. database. DataSnapshot](https://firebase.google.com/docs/reference/js/firebase.database.DataSnapshot#numchildren)
 
-- 49
+- 45
+ - [Updating data](https://firebase.google.com/docs/database/web/read-and-write)
 
-[in operator ](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in)
+- 47 Check an onClick function ```setActiveIndex``` that gets data from the dom element, whithout us setting any. 
+Check in ```MetaPanel.js```
+```
+    setActiveIndex = (event, titleProps) => { ... }
+
+```
+- 49
+    - in ```Messages.js``` and ```countUserPosts``` check for: [in operator ](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/in)
+    - in ```MetaPanel.js``` and ```diplayTopPosters``` check for: [Object.entries()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/entries)
+
+- 51
+    - @5:24 Why in ```ColorPanel.js``` - ```saveColors``` we use ```push``` while in the same case in ```Messages.js``` - ```favoriteTheChannel``` we don't?
 
 - 54
   About [FileReader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader) Object:

@@ -100,6 +100,9 @@ class Messages extends Component {
 
   countUserPosts = messages => {
     let userPosts = messages.reduce((acc, message) => {
+      // console.log('messages',messages);
+      // console.log('message',message);
+      
       if (message.user.name in acc) {
         acc[message.user.name].count += 1;
       } else {

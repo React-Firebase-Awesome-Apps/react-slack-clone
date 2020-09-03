@@ -55,7 +55,7 @@ class ColorPanel extends Component {
   saveColors = (primary, secondary) => {
     this.state.usersRef
       .child(`${this.state.user.uid}/colors`)
-      .push()
+      .push() // Why use push?
       .update({ primary, secondary })
       .then(() => {
         console.log("Colors added");

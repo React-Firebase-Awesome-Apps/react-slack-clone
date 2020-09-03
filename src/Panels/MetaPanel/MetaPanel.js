@@ -15,8 +15,9 @@ class MetaPanel extends Component {
     channel: this.props.currentChannel
   };
 
+  // How come that titleProps gets data, while we never asigned any?
   setActiveIndex = (event, titleProps) => {
-    console.log("MetaPanel titleProps", titleProps);
+    // console.log("MetaPanel titleProps", titleProps);
 
     const { index } = titleProps;
     const { activeIndex } = this.state;

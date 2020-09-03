@@ -59,6 +59,7 @@ class Channels extends Component {
 
       if (this.state.channel) {
         // console.log('this.state.notifications,', this.state.notifications,);
+        // console.log('channelId', channelId);
         
         // Show new messages from other channels...
         this.handleNotifications(
