@@ -89,6 +89,8 @@ class UserPanel extends Component {
     if (this.avatarEditor) {
       this.avatarEditor.getImageScaledToCanvas().toBlob(blob => {
         let imageUrl = URL.createObjectURL(blob);
+        //console.log('imageUrl', imageUrl);
+        
         this.setState({ croppedImage: imageUrl, blob });
       });
     }

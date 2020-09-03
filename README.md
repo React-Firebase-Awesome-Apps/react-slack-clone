@@ -79,14 +79,27 @@ Check in ```MetaPanel.js```
   The readAsDataURL method is used to read the contents of the specified Blob or File. When the read operation is finished, the readyState becomes DONE, and the loadend is triggered. At that time, the **result** attribute contains the data as a data: URL representing the file's data as a base64 encoded string.
   Also: [File and FileReader](https://javascript.info/file).
 
-About getImageScaledToCanvas:
-[react-avatar-editor](https://www.npmjs.com/package/react-avatar-editor)
+  About ```reader.addEventListener("load", ...``` check [Event Reference](https://developer.mozilla.org/en-US/docs/Web/Events)   
 
-```js
-// If you want the image resized to the canvas size (also a HTMLCanvasElement)
-const canvasScaled = this.editor.getImageScaledToCanvas();
-```
+  About getImageScaledToCanvas: [react-avatar-editor](https://www.npmjs.com/package/react-avatar-editor)
 
-[HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) The HTMLCanvasElement.toBlob() method creates a Blob object representing the image contained in the canvas; this file may be cached on the disk or stored in memory at the discretion of the user agent.
+  [react-avatar-editor](https://www.npmjs.com/package/react-avatar-editor)
 
-[getDownloadURL()](https://firebase.google.com/docs/storage/web/download-files) from Firebase.
+    ```js
+    // If you want the image resized to the canvas size (also an HTMLCanvasElement)
+    const canvasScaled = this.editor.getImageScaledToCanvas();
+    ```
+
+    [HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob)
+
+    [URL.createObjectURL()](https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL)
+
+    [HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) The HTMLCanvasElement.toBlob() method creates a Blob object representing the image contained in the canvas; this file may be cached on the disk or stored in memory at the discretion of the user agent.
+
+    [getDownloadURL()](https://firebase.google.com/docs/storage/web/download-files) from Firebase.
+
+- 54
+    Firebase [Upload Files on Web](https://firebase.google.com/docs/storage/web/upload-files).
+    
+    Firebase [updateProfile](https://firebase.google.com/docs/auth/web/manage-users#update_a_users_profile).
+
