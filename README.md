@@ -121,3 +121,6 @@ Check in ```MetaPanel.js```
     - We implemented the ```addTypingListeners``` so that in any case we know how many and which users are typing.
 
     - [firebase. database. OnDisconnect](https://firebase.google.com/docs/reference/js/firebase.database.OnDisconnect)
+
+- 59 
+    - [missive/emoji-mart](https://github.com/missive/emoji-mart)

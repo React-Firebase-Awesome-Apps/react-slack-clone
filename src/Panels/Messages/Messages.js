@@ -267,7 +267,6 @@ class Messages extends Component {
     ));
 
   render() {
-console.log('typing users', this.state.typingUsers);
 
     const {
       messagesRef,

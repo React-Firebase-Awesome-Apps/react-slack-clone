@@ -17,6 +17,10 @@ body,
   overflow-y: scroll;
 }
 
+.emojipicker {
+  position: absolute;
+}
+
 /* MessagesForm */
 .message__form {
   position: fixed !important;
