@@ -33,7 +33,11 @@ class MessagesForm extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleKeyDown = () => {
+  handleKeyDown = (e) => {
+    if (e.keyCode === 13 || e.which === 13) {
+      this.sendMessage();
+    }
+
     const { message, typingRef, user, channel } = this.state;
     if (message) {
       typingRef
