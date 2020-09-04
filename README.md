@@ -128,3 +128,6 @@ Check in ```MetaPanel.js```
 - 60 
     - Check code on how to scroll automatically to the end of the messages segment, after a new message is added, or someone is typing. 
     - [Element.scrollIntoView()](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView)
+
+- 61 
+    - Show a messages skeleton when messages are loading...

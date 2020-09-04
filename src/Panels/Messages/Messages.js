@@ -8,6 +8,7 @@ import MessagesHeader from "./MessagesHeader";
 import MessagesForm from "./MessagesForm";
 import Message from "./Message";
 import Typing from "./Typing";
+import Skeleton from "./Skeleton";
 
 // Child of App
 class Messages extends Component {
@@ -56,7 +57,7 @@ class Messages extends Component {
   }
 
   scrollToBottom = () => {
-    this.messagesEnd.scrollIntoView(true, { behavior: "smooth"});
+    this.messagesEnd.scrollIntoView(true, { behavior: "smooth" });
   };
 
   addListeners = channelId => {
@@ -276,6 +277,15 @@ class Messages extends Component {
       </div>
     ));
 
+  displayMessagesSkeleton = loading =>
+    // loading ? (
+      <React.Fragment>
+        {[...Array(10)].map((_, i) => (
+          <Skeleton key={i} />
+        ))}
+      </React.Fragment>
+    // ) : null;
+
   render() {
     const {
       messagesRef,
@@ -289,7 +299,8 @@ class Messages extends Component {
       privateChannel,
       isChannelFavorite,
       photoURL,
-      typingUsers
+      typingUsers,
+      messagesLoading
     } = this.state;
 
     return (
@@ -306,6 +317,7 @@ class Messages extends Component {
 
         <Segment raised>
           <Comment.Group className="messages">
+            {this.displayMessagesSkeleton(messagesLoading)}
             {searchTerm
               ? this.displayMessages(searchResults)
               : this.displayMessages(messages)}
