@@ -15,6 +15,8 @@ class Messages extends Component {
     messagesRef: firebase.database().ref("messages"),
     privateMessagesRef: firebase.database().ref("privateMessages"),
     usersRef: firebase.database().ref("users"),
+    typingRef: firebase.database().ref("typing"),
+    connectedRef: firebase.database().ref("info/connected"),
     currentChannel: this.props.currentChannel,
     privateChannel: this.props.isPrivateChannel,
     currentUser: this.props.currentUser,
@@ -25,7 +27,8 @@ class Messages extends Component {
     searchLoading: false,
     searchResults: [],
     isChannelFavorite: false,
-    photoURL: ""
+    photoURL: "",
+    typingUsers: []
   };
 
   componentDidMount() {
@@ -48,7 +51,9 @@ class Messages extends Component {
 
   addListeners = channelId => {
     this.addMesaggeListener(channelId);
+    this.addTypingListeners(channelId);
   };
+
   addMesaggeListener = channelId => {
     const ref = this.getMessagesRef();
     let loadedMessages = [];
@@ -60,6 +65,44 @@ class Messages extends Component {
       });
       this.countUniqueUsers(loadedMessages);
       this.countUserPosts(loadedMessages);
+    });
+  };
+
+  addTypingListeners = channelId => {
+    let typingUsers = [];
+    this.state.typingRef.child(channelId).on("child_added", snap => {
+      // do not collect the current user
+      if (snap.key !== this.state.currentUser.uid) {
+        // Why the assingment?
+        typingUsers = typingUsers.concat({
+          id: snap.key,
+          name: snap.val()
+        });
+        this.setState({ typingUsers });
+      }
+    });
+
+    this.state.typingRef.child(channelId).on("child_removed", snap => {
+      const index = typingUsers.findIndex(user => user.id === snap.key);
+      if (index !== -1) {
+        typingUsers = typingUsers.filter(user => user.id !== snap.key);
+        this.setState({ typingUsers });
+      }
+    });
+
+    // Remove animation if user is disconnected
+    this.state.connectedRef.on("value", snap => {
+      if (snap.val() === true) {
+        this.state.typingRef
+          .child(channelId)
+          .child(this.state.currentUser.uid)
+          .onDisconnect()
+          .remove(err => {
+            if (err !== null) {
+              console.error(err);
+            }
+          });
+      }
     });
   };
 
@@ -206,7 +249,26 @@ class Messages extends Component {
     setTimeout(() => this.setState({ searchLoading: false }), 500);
   };
 
+  displayTypingUsers = users =>
+    users.length > 0 &&
+    users.map(user => (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          marginBottom: "0.2em"
+        }}
+        key={user.id}
+      >
+        <span className="user__typing">
+          {user.name} is typing <Typing />
+        </span>
+      </div>
+    ));
+
   render() {
+console.log('typing users', this.state.typingUsers);
+
     const {
       messagesRef,
       currentChannel,
@@ -218,7 +280,8 @@ class Messages extends Component {
       searchLoading,
       privateChannel,
       isChannelFavorite,
-      photoURL
+      photoURL,
+      typingUsers
     } = this.state;
     return (
       <Fragment>
@@ -237,9 +300,7 @@ class Messages extends Component {
             {searchTerm
               ? this.displayMessages(searchResults)
               : this.displayMessages(messages)}
-            <span className="user__typing">
-              user is typing <Typing />
-            </span>
+            {this.displayTypingUsers(typingUsers)}
           </Comment.Group>
         </Segment>
 

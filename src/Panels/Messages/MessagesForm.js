@@ -32,8 +32,6 @@ class MessagesForm extends Component {
 
   handleKeyDown = () => {
     const { message, typingRef, user, channel } = this.state;
-    console.log("message", message);
-
     if (message) {
       typingRef
         .child(channel.id)

@@ -4,6 +4,9 @@
 
 ### Lectures Notes:
 
+Note: To log from a network address, visit: 
+- On Your Network:  http://192.168.43.7:3001/
+
 - 4
     - rm -rf .git => to remove the version control we downloaded.
     - From Q&A: [Why we cant npm i or yarn](https://www.udemy.com/course/build-a-slack-chat-app-with-react-redux-and-firebase/learn/lecture/11852874#questions/12214548)
@@ -72,43 +75,49 @@ Check in ```MetaPanel.js```
     - @5:24 Why in ```ColorPanel.js``` - ```saveColors``` we use ```push``` while in the same case in ```Messages.js``` - ```favoriteTheChannel``` we don't?
 
 - 54
-  About [FileReader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader) Object:
+  - About [FileReader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader) Object:
   The FileReader object lets web applications asynchronously read the contents of files (or raw data buffers) stored on the user's computer, using File or Blob objects to specify the file or data to read.
 
-  About [FileReader.readAsDataURL()](https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
+  - About [FileReader.readAsDataURL()](https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
   The readAsDataURL method is used to read the contents of the specified Blob or File. When the read operation is finished, the readyState becomes DONE, and the loadend is triggered. At that time, the **result** attribute contains the data as a data: URL representing the file's data as a base64 encoded string.
   Also: [File and FileReader](https://javascript.info/file).
 
-  About ```reader.addEventListener("load", ...``` check [Event Reference](https://developer.mozilla.org/en-US/docs/Web/Events)   
+   - About ```reader.addEventListener("load", ...``` check [Event Reference](https://developer.mozilla.org/en-US/docs/Web/Events)   
 
-  About getImageScaledToCanvas: [react-avatar-editor](https://www.npmjs.com/package/react-avatar-editor)
+  - About getImageScaledToCanvas: [react-avatar-editor](https://www.npmjs.com/package/react-avatar-editor)
 
-  [react-avatar-editor](https://www.npmjs.com/package/react-avatar-editor)
+  - [react-avatar-editor](https://www.npmjs.com/package/react-avatar-editor)
 
     ```js
     // If you want the image resized to the canvas size (also an HTMLCanvasElement)
     const canvasScaled = this.editor.getImageScaledToCanvas();
     ```
 
-    [HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob)
+    - [HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob)
 
-    [URL.createObjectURL()](https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL)
+    - [URL.createObjectURL()](https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL)
 
-    [HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) The HTMLCanvasElement.toBlob() method creates a Blob object representing the image contained in the canvas; this file may be cached on the disk or stored in memory at the discretion of the user agent.
+    - [HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) The HTMLCanvasElement.toBlob() method creates a Blob object representing the image contained in the canvas; this file may be cached on the disk or stored in memory at the discretion of the user agent.
 
-    [getDownloadURL()](https://firebase.google.com/docs/storage/web/download-files) from Firebase.
+    - [getDownloadURL()](https://firebase.google.com/docs/storage/web/download-files) from Firebase.
 
 - 54
-    Firebase [Upload Files on Web](https://firebase.google.com/docs/storage/web/upload-files).
+    - Firebase [Upload Files on Web](https://firebase.google.com/docs/storage/web/upload-files).
     
-    Firebase [updateProfile](https://firebase.google.com/docs/auth/web/manage-users#update_a_users_profile).
+    - Firebase [updateProfile](https://firebase.google.com/docs/auth/web/manage-users#update_a_users_profile).
 
 - 57 
-    [CSS animation Property](https://www.w3schools.com/cssref/css3_pr_animation.asp)
+    - We implemented the ```handleKeyDown``` function in ```MessageForm.js``` which sets/removes in Firebase the user's name when typing or not.
 
-    [CSS animation-delay Property](https://www.w3schools.com/cssref/css3_pr_animation-delay.asp)
+    - [CSS animation Property](https://www.w3schools.com/cssref/css3_pr_animation.asp)
 
-    [CSS :nth-child() Selector](https://www.w3schools.com/cssref/sel_nth-child.asp)
+    - [CSS animation-delay Property](https://www.w3schools.com/cssref/css3_pr_animation-delay.asp)
 
-    [CSS @keyframes Rule](https://www.w3schools.com/cssref/css3_pr_animation-keyframes.asp)
+    - [CSS :nth-child() Selector](https://www.w3schools.com/cssref/sel_nth-child.asp)
 
+    - [CSS @keyframes Rule](https://www.w3schools.com/cssref/css3_pr_animation-keyframes.asp)
+
+- 58 
+    - We implemented the ```addTypingListeners``` so that in any case we know how many and which users are typing.
+
+    - [firebase. database. OnDisconnect](https://firebase.google.com/docs/reference/js/firebase.database.OnDisconnect)
