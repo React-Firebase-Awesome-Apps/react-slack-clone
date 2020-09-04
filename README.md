@@ -103,3 +103,12 @@ Check in ```MetaPanel.js```
     
     Firebase [updateProfile](https://firebase.google.com/docs/auth/web/manage-users#update_a_users_profile).
 
+- 57 
+    [CSS animation Property](https://www.w3schools.com/cssref/css3_pr_animation.asp)
+
+    [CSS animation-delay Property](https://www.w3schools.com/cssref/css3_pr_animation-delay.asp)
+
+    [CSS :nth-child() Selector](https://www.w3schools.com/cssref/sel_nth-child.asp)
+
+    [CSS @keyframes Rule](https://www.w3schools.com/cssref/css3_pr_animation-keyframes.asp)
+

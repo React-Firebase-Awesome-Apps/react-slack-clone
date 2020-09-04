@@ -7,6 +7,7 @@ import { setUserPosts } from "../../store/actions";
 import MessagesHeader from "./MessagesHeader";
 import MessagesForm from "./MessagesForm";
 import Message from "./Message";
+import Typing from "./Typing";
 
 // Child of App
 class Messages extends Component {
@@ -102,7 +103,7 @@ class Messages extends Component {
     let userPosts = messages.reduce((acc, message) => {
       // console.log('messages',messages);
       // console.log('message',message);
-      
+
       if (message.user.name in acc) {
         acc[message.user.name].count += 1;
       } else {
@@ -236,6 +237,9 @@ class Messages extends Component {
             {searchTerm
               ? this.displayMessages(searchResults)
               : this.displayMessages(messages)}
+            <span className="user__typing">
+              user is typing <Typing />
+            </span>
           </Comment.Group>
         </Segment>
 

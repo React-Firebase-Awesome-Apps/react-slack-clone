@@ -23,6 +23,7 @@ class Channels extends Component {
     channelDetails: "",
     channelsRef: firebase.database().ref("channels"),
     messagesRef: firebase.database().ref("messages"),
+    typingRef: firebase.database().ref("typing"),
     notifications: [],
     modal: false,
     firstLoad: true
@@ -60,7 +61,7 @@ class Channels extends Component {
       if (this.state.channel) {
         // console.log('this.state.notifications,', this.state.notifications,);
         // console.log('channelId', channelId);
-        
+
         // Show new messages from other channels...
         this.handleNotifications(
           // will show the ids of all the channels.
@@ -90,10 +91,9 @@ class Channels extends Component {
 
     if (index !== -1) {
       if (channelId !== currentChannelId) {
-        
         lastTotal = notifications[index].total;
         // console.log(" handleNotifications lastTotal", lastTotal);
-        
+
         if (snap.numChildren() - lastTotal > 0) {
           notifications[index].count = snap.numChildren() - lastTotal;
         }
@@ -109,7 +109,7 @@ class Channels extends Component {
       });
     }
     // console.log("notifications", notifications);
-   
+
     this.setState({ notifications });
   };
 
@@ -152,9 +152,14 @@ class Channels extends Component {
   formIsValid = ({ channelName, channelDetails }) =>
     !!channelName && !!channelDetails;
 
-  changeChannel = channel => {
+  changeChannel = currentChannel => {
+    const { typingRef, channel, user } = this.state;
     this.setActiveChannel(channel);
-    this.props.setCurrentChannel(channel);
+    typingRef
+      .child(this.state.channel.id) // Does not work if you use currentChannel from function arg
+      .child(user.uid)
+      .remove();
+    this.props.setCurrentChannel(currentChannel);
     this.props.setPrivateChannel(false);
     this.clearNotifications();
     this.setState({ channel });
