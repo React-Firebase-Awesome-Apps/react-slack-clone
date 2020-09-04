@@ -49,6 +49,16 @@ class Messages extends Component {
     }
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.messagesEnd) {
+      this.scrollToBottom();
+    }
+  }
+
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView(true, { behavior: "smooth"});
+  };
+
   addListeners = channelId => {
     this.addMesaggeListener(channelId);
     this.addTypingListeners(channelId);
@@ -267,7 +277,6 @@ class Messages extends Component {
     ));
 
   render() {
-
     const {
       messagesRef,
       currentChannel,
@@ -282,6 +291,7 @@ class Messages extends Component {
       photoURL,
       typingUsers
     } = this.state;
+
     return (
       <Fragment>
         <MessagesHeader
@@ -300,6 +310,7 @@ class Messages extends Component {
               ? this.displayMessages(searchResults)
               : this.displayMessages(messages)}
             {this.displayTypingUsers(typingUsers)}
+            <div ref={node => (this.messagesEnd = node)}></div>
           </Comment.Group>
         </Segment>
 
