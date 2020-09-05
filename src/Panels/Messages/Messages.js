@@ -29,32 +29,65 @@ class Messages extends Component {
     searchResults: [],
     isChannelFavorite: false,
     photoURL: "",
-    typingUsers: []
+    typingUsers: [],
+    listeners: []
   };
 
   componentDidMount() {
-    const { currentChannel, currentUser } = this.state;
+    const { currentChannel, currentUser, listeners } = this.state;
     if (currentChannel && currentUser) {
+      this.removeListeners(listeners);
       this.addListeners(currentChannel.id);
       this.addUserFavoriteChannelsListener(currentChannel.id, currentUser.uid);
     }
 
-    if (!!this.state.currentUser) {
+    // extra: not from course
+    if (!!this.state.currentUser && !!currentChannel) {
       firebase
         .database()
         .ref(`users/${this.state.currentUser.uid}`)
         .on("value", snapshot => {
-          console.log(snapshot.val());
+          // console.log(snapshot.val());
           this.setState({ photoURL: snapshot.val().avatar });
         });
+
+      this.addToListeners(
+        currentChannel.id,
+        firebase.database().ref(`users/${this.state.currentUser.uid}`),
+        "value"
+      );
     }
   }
+
+  componentWillUnmount() {
+    this.removeListeners(this.state.listeners);
+    this.state.connectedRef.off();
+  }
+
+  removeListeners = listeners => {
+    listeners.forEach(listener => {
+      listener.ref.child(listener.id).off(listener.event);
+    });
+  };
 
   componentDidUpdate(prevProps, prevState) {
     if (this.messagesEnd) {
       this.scrollToBottom();
     }
   }
+
+  addToListeners = (id, ref, event) => {
+    const index = this.state.listeners.findIndex(listener => {
+      return (
+        listener.id === id && listener.ref === ref && listener.event === event
+      );
+    });
+
+    if (index === -1) {
+      const newListener = { id, ref, event };
+      this.setState({ listeners: this.state.listeners.concat(newListener) });
+    }
+  };
 
   scrollToBottom = () => {
     this.messagesEnd.scrollIntoView(true, { behavior: "smooth" });
@@ -77,6 +110,7 @@ class Messages extends Component {
       this.countUniqueUsers(loadedMessages);
       this.countUserPosts(loadedMessages);
     });
+    this.addToListeners(channelId, ref, "child_added");
   };
 
   addTypingListeners = channelId => {
@@ -93,6 +127,8 @@ class Messages extends Component {
       }
     });
 
+    this.addToListeners(channelId, this.state.typingRef, "child_added");
+
     this.state.typingRef.child(channelId).on("child_removed", snap => {
       const index = typingUsers.findIndex(user => user.id === snap.key);
       if (index !== -1) {
@@ -100,6 +136,8 @@ class Messages extends Component {
         this.setState({ typingUsers });
       }
     });
+
+    this.addToListeners(channelId, this.state.typingRef, "child_removed");
 
     // Remove animation if user is disconnected
     this.state.connectedRef.on("value", snap => {
@@ -115,6 +153,8 @@ class Messages extends Component {
           });
       }
     });
+    // extra: not from course
+    this.addToListeners(channelId, this.state.connectedRef, "value");
   };
 
   addUserFavoriteChannelsListener = (channelId, userId) => {
@@ -132,6 +172,13 @@ class Messages extends Component {
           this.setState({ isChannelFavorite: prevFavorite });
         }
       });
+
+    // extra: not from course
+    this.addListeners(
+      channelId,
+      this.state.usersRef.child(userId).child("favorites"),
+      "value"
+    );
   };
 
   getMessagesRef = () => {
@@ -170,12 +217,6 @@ class Messages extends Component {
     }, {});
     this.props.setUserPosts(userPosts);
   };
-
-  // We need to remove listeners!!!
-  componentWillUnmount = () => {
-    this.removeListeners();
-  };
-  removeListeners = () => this.state.messagesRef.off();
 
   displayMessages = messages =>
     messages.length > 0 &&
@@ -278,13 +319,13 @@ class Messages extends Component {
     ));
 
   displayMessagesSkeleton = loading =>
-    // loading ? (
+    loading ? (
       <React.Fragment>
         {[...Array(10)].map((_, i) => (
           <Skeleton key={i} />
         ))}
       </React.Fragment>
-    // ) : null;
+    ) : null;
 
   render() {
     const {

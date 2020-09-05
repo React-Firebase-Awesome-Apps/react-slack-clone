@@ -20,6 +20,14 @@ class FavoriteChannels extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.removeListeners();
+  }
+
+  removeListeners = () => {
+    this.state.usersRef.child(`${this.state.user.uid}/favorites`).off();
+  };
+
   addListeners = userId => {
     // 1. When we favorite a channel.
     this.state.usersRef

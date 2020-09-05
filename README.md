@@ -131,3 +131,6 @@ Check in ```MetaPanel.js```
 
 - 61 
     - Show a messages skeleton when messages are loading...
+
+- 63 
+    - [Manage Uploads](https://firebase.google.com/docs/storage/web/upload-files)

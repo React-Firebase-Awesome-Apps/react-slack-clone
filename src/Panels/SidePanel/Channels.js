@@ -28,12 +28,15 @@ class Channels extends Component {
     modal: false,
     firstLoad: true
   };
+
   componentDidMount = () => {
     this.addListeners();
   };
+
   componentWillUnmount = () => {
     this.removeListeners();
   };
+
   addListeners = () => {
     let loadedChannels = [];
     this.state.channelsRef.on("child_added", snap => {
@@ -43,6 +46,16 @@ class Channels extends Component {
       this.addNotificationListener(snap.key);
     });
   };
+
+  // extra code: not from course
+  removeListeners = () => {
+    const { channelsRef, messagesRef, channels } = this.state;
+    // No need to set the event...
+    // channelsRef.on("child_added").off();
+    channelsRef.off();
+    channels.forEach(chan => messagesRef.child(chan.id).off());
+  };
+
   setFirstChannel = () => {
     const firstChannel = this.state.channels[0];
     if (this.state.firstLoad && this.state.channels.length > 0) {
@@ -113,8 +126,6 @@ class Channels extends Component {
     this.setState({ notifications });
   };
 
-  removeListeners = () => this.state.channelsRef.off();
-
   closeModal = () => this.setState({ modal: false });
   openModal = () => this.setState({ modal: true });
   handleChange = event => {
@@ -143,12 +154,14 @@ class Channels extends Component {
       })
       .catch(err => console.error(err));
   };
+
   handleSubmit = event => {
     event.preventDefault();
     if (this.formIsValid(this.state)) {
       this.addChannel();
     }
   };
+
   formIsValid = ({ channelName, channelDetails }) =>
     !!channelName && !!channelDetails;
 
@@ -213,6 +226,7 @@ class Channels extends Component {
       ))
     );
   };
+
   render() {
     const { channels, modal } = this.state;
     return (
