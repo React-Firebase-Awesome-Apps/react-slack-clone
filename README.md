@@ -2,6 +2,8 @@
 
 [Build a Slack Chat App with React, Redux, and Firebase](https://www.udemy.com/course/build-a-slack-chat-app-with-react-redux-and-firebase/)
 
+Hosting URL: https://slack-clone-9a8d0.web.app
+
 ### Lectures Notes:
 
 Note: To log from a network address, visit: 
@@ -9,13 +11,19 @@ Note: To log from a network address, visit:
 
 - 4
     - rm -rf .git => to remove the version control we downloaded.
-    - From Q&A: [Why we cant npm i or yarn](https://www.udemy.com/course/build-a-slack-chat-app-with-react-redux-and-firebase/learn/lecture/11852874#questions/12214548)
+    - From Q&A: [Why we can't npm i or yarn](https://www.udemy.com/course/build-a-slack-chat-app-with-react-redux-and-firebase/learn/lecture/11852874#questions/12214548)
 
 - 5
  - Firebase uses websockets that make data transfer very fast!
 
 - 10
-    - check md5 library. It's normally used to hash messages. But we use it here,   in Register.js to create a unique valuew to provide to gravatar url.
+    - check md5 library. It's normally used to hash messages. But we use it here, in Register.js to create a unique valuew to provide to gravatar url.
+
+    Extra info:
+
+    [Why would you hash a file?](https://www.2brightsparks.com/resources/articles/introduction-to-hashing-and-its-uses.html)
+    Hashing is also used to verify the integrity of a file after it has been transferred from one place to another, typically in a file backup program like SyncBack. To ensure the transferred file is not corrupted, a user can compare the hash value of both files.
+
     - **Check** on lecture's video @2:50 how to save in console the logged object in global state!
 
 - 12
@@ -134,3 +142,11 @@ Check in ```MetaPanel.js```
 
 - 63 
     - [Manage Uploads](https://firebase.google.com/docs/storage/web/upload-files)
+
+- 64
+ - Check rules for Firebase Storage [Get started with Firebase Security Rules](https://firebase.google.com/docs/storage/security/get-started)
+
+- 65
+ - Check rules for Firebase Realtime Database [Get started with Firebase Security Rules](https://firebase.google.com/docs/storage/security/get-started)
+ -[hasChildren](https://firebase.google.com/docs/reference/js/firebase.database.DataSnapshot#haschildren)
+ -[newData](https://firebase.google.com/docs/reference/security/database#newdata)
