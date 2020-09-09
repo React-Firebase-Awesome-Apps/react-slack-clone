@@ -165,14 +165,14 @@ class Channels extends Component {
   formIsValid = ({ channelName, channelDetails }) =>
     !!channelName && !!channelDetails;
 
-  changeChannel = currentChannel => {
-    const { typingRef, channel, user } = this.state;
+  changeChannel = channel => {
+    const { typingRef, user } = this.state;
     this.setActiveChannel(channel);
     typingRef
-      .child(this.state.channel.id) // Does not work if you use currentChannel from function arg
+      .child(channel.id) 
       .child(user.uid)
       .remove();
-    this.props.setCurrentChannel(currentChannel);
+    this.props.setCurrentChannel(channel);
     this.props.setPrivateChannel(false);
     this.clearNotifications();
     this.setState({ channel });

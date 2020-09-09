@@ -45,15 +45,14 @@ Note: To log from a network address, visit:
     - As about event.target.files[0] see: [Using files from web applications](https://developer.mozilla.org/en-US/docs/Web/API/File/Using_files_from_web_applications)
 
 - 37
-    - **Search** messages...
+    - Use reduce and regex to **search** messages...
 
 - 39
-    - Check Q&A in Udemy, under "What is connectedRef?".
+    - Check Q&A in Udemy, under "What is connectedRef?". From the docs: [Detecting Connection State:](https://firebase.google.com/docs/database/web/offline-capabilities)
     - [onDisconnect and remove](https://firebase.google.com/docs/reference/js/firebase.database.OnDisconnect#remove)
 
 - 43
-  - [Read Event Types in Java and Node.js](https://firebase.google.com/docs/database/admin/retrieve-data)
-
+  - [Retrieving Data](https://firebase.google.com/docs/database/admin/retrieve-data)
     Value:
 
     The value event is used to read a static snapshot of the contents at a given database path, as they existed at the time of the read event. It is triggered once with the initial data and again every time the data changes. The event callback is passed a snapshot containing all data at that location, including child data. In the code example above, value returned all of the blog posts in your app. Everytime a new blog post is added, the callback function will return all of the posts.
