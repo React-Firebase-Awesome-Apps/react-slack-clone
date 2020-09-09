@@ -93,7 +93,6 @@ class Channels extends Component {
 
     let lastTotal = 0;
     // check if we have any notification for a given channel
-    // Note: changing the value of the argument of the function, makes the function not pure...
     let index = notifications.findIndex(
       notification => notification.id === channelId
     );
@@ -114,6 +113,9 @@ class Channels extends Component {
 
       notifications[index].lastKnownTotal = snap.numChildren();
     } else {
+    // Note: changing the value of the argument of the function, makes the function not pure...
+    // Moreover notifications comes from state and we modify it and we set it back to state.
+    // Is this good practice?
       notifications.push({
         id: channelId,
         total: snap.numChildren(),

@@ -75,8 +75,6 @@ class DirectMessages extends Component {
   addStatusToUser = (userId, connected = true) => {
     const updatedUsers = this.state.users.reduce((acc, user) => {
       if (user.uid === userId) {
-        // Here we don't need to create dynamicaly the status prop,
-        // because we already created it above!
         user["status"] = `${connected ? "online" : "offline"}`;
       }
       return acc.concat(user);
@@ -109,6 +107,8 @@ class DirectMessages extends Component {
 
   render() {
     const { users, activeChannel } = this.state;
+    console.log('activeChannel', activeChannel);
+
     return (
       <Menu.Menu className="menu">
         <Menu.Item>
@@ -117,7 +117,25 @@ class DirectMessages extends Component {
             DIRECT MESSAGES
           </span>{" "}
           ({users.length})
-          {users.map(user => (
+          {users.map(user => {
+            console.log('user.uid', user.uid);
+            
+            return (
+              <Menu.Item
+                key={user.uid}
+                active={activeChannel === user.uid}
+                onClick={() => this.changeChannel(user)}
+                style={{ opacity: 0.7, fontStyle: "italic" }}
+              >
+                <Icon
+                  name="circle"
+                  color={this.isUserOnline(user) ? "green" : "red"}
+                />
+                @ {user.name}
+              </Menu.Item>
+            );
+          })}
+          {/* {users.map(user => (
             <Menu.Item
               key={user.uid}
               active={activeChannel === user.uid}
@@ -130,7 +148,7 @@ class DirectMessages extends Component {
               />
               @ {user.name}
             </Menu.Item>
-          ))}
+          ))} */}
         </Menu.Item>
       </Menu.Menu>
     );

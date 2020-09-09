@@ -52,6 +52,9 @@ Note: To log from a network address, visit:
     - [onDisconnect and remove](https://firebase.google.com/docs/reference/js/firebase.database.OnDisconnect#remove)
 
 - 43
+    - Check in `Channels.js` for the `handleNotifications` function, the following notes: Changing the value of the argument of the function, makes the function not pure...
+    Moreover notifications comes from state and we modify it and we set it back to state.
+    Is this good practice?
   - [Retrieving Data](https://firebase.google.com/docs/database/admin/retrieve-data)
     Value:
 
@@ -80,6 +83,61 @@ Check in ```MetaPanel.js```
 
 - 51
     - @5:24 Why in ```ColorPanel.js``` - ```saveColors``` we use ```push``` while in the same case in ```Messages.js``` - ```favoriteTheChannel``` we don't?
+
+```js
+saveColors = (primary, secondary) => {
+    this.state.usersRef
+      .child(`${this.state.user.uid}/colors`)
+      .push()
+      .update({ primary, secondary })
+      .then(() => {
+        console.log("Colors added");
+        this.closeModal();
+      })
+      .catch(err => console.error(err));
+  };
+
+
+usersRef.child(`${currentUser.uid}/starred`).update({
+        [currentChannel.id]: {
+          name: currentChannel.name,
+          details: currentChannel.details,
+          createdBy: {
+            name: currentChannel.createdBy.name,
+            avatar: currentChannel.createdBy.avatar
+          }
+        }
+      });
+```
+
+
+
+From the [docs](https://firebase.google.com/docs/database/admin/save-data):
+
+...the Firebase clients provide a push() function that generates a unique key for each new child. By using unique child keys, several clients can add children to the same location at the same time without worrying about write conflicts.
+
+```js
+var postsRef = ref.child("posts");
+ 
+var newPostRef = postsRef.push();
+ 
+newPostRef.set({  author: "gracehop",  title: "Announcing COBOL, a New Programming Language"});
+ 
+// we can also chain the two calls together
+postsRef.push().set({  author: "alanisawesome",  title: "The Turing Machine"});
+
+```
+...
+
+In JavaScript, Python and Go, the pattern of calling push() and then immediately calling set() is so common that the Firebase SDK lets you combine them by passing the data to be set directly to push() as follows:
+
+
+
+// This is equivalent to the calls to push().set(...) above
+ ```js
+postsRef.push({  author: "gracehop",  
+title: "Announcing COBOL, a New Programming Language"});
+```
 
 - 54
   - About [FileReader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader) Object:
