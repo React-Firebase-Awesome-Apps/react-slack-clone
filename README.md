@@ -67,6 +67,7 @@ Note: To log from a network address, visit:
     Moreover notifications comes from state and we modify it and we set it back to state.
     Is this good practice?
   - [Retrieving Data](https://firebase.google.com/docs/database/admin/retrieve-data)
+
     Value:
 
     The value event is used to read a static snapshot of the contents at a given database path, as they existed at the time of the read event. It is triggered once with the initial data and again every time the data changes. The event callback is passed a snapshot containing all data at that location, including child data. In the code example above, value returned all of the blog posts in your app. Everytime a new blog post is added, the callback function will return all of the posts.
@@ -80,7 +81,7 @@ Note: To log from a network address, visit:
   - About snap.numChildern() and more... check: [firebase. database. DataSnapshot](https://firebase.google.com/docs/reference/js/firebase.database.DataSnapshot#numchildren)
 
 - 45
-- [Updating data](https://firebase.google.com/docs/database/web/read-and-write)
+- Firebase [Updating data](https://firebase.google.com/docs/database/web/read-and-write)
 
 - 47 Check in `MetaPanel.js` an onClick function `setActiveIndex = (event, titleProps) => { ... }` that gets data (`tittleProps`) from the dom element, whithout us setting any. When we log them we get that: `onClick: ƒ (event, titleProps)`...
 
@@ -163,7 +164,9 @@ Note: To log from a network address, visit:
       .slice(0, 5);
   ```
 
-* 51
+- 50
+  - Check package [`react-color`](https://www.npmjs.com/package/react-color) for adding a color picker.
+- 51
   - @5:24 Why in `ColorPanel.js` - `saveColors` we use `push` while in the same case in `Messages.js` - `favoriteTheChannel` we don't?
 
 ```js
@@ -222,42 +225,35 @@ postsRef.push({
 });
 ```
 
-- 54
+- 53
 
   - About [FileReader](https://developer.mozilla.org/en-US/docs/Web/API/FileReader) Object:
     The FileReader object lets web applications asynchronously read the contents of files (or raw data buffers) stored on the user's computer, using File or Blob objects to specify the file or data to read.
 
   - About [FileReader.readAsDataURL()](https://developer.mozilla.org/en-US/docs/Web/API/FileReader/readAsDataURL)
     The readAsDataURL method is used to read the contents of the specified Blob or File. When the read operation is finished, the readyState becomes DONE, and the loadend is triggered. At that time, the **result** attribute contains the data as a data: URL representing the file's data as a base64 encoded string.
-    Also: [File and FileReader](https://javascript.info/file).
+
+    Also: [FileReader](https://javascript.info/file#filereader).
 
   - About `reader.addEventListener("load", ...` check [Event Reference](https://developer.mozilla.org/en-US/docs/Web/Events)
 
-  - About getImageScaledToCanvas: [react-avatar-editor](https://www.npmjs.com/package/react-avatar-editor)
+- 54
 
-  - [react-avatar-editor](https://www.npmjs.com/package/react-avatar-editor)
-
+  - About getImageScaledToCanvas: ... If you want the image sized in the dimensions of the canvas you can use getImageScaledToCanvas. [react-avatar-editor](https://www.npmjs.com/package/react-avatar-editor)
     ```js
     // If you want the image resized to the canvas size (also an HTMLCanvasElement)
     const canvasScaled = this.editor.getImageScaledToCanvas();
     ```
+  - [HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) The HTMLCanvasElement.toBlob() method creates a Blob object representing the image contained in the canvas; this file may be cached on the disk or stored in memory at the discretion of the user agent.
+  - [URL.createObjectURL()](https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL)
 
-    - [HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob)
-
-    - [URL.createObjectURL()](https://developer.mozilla.org/en-US/docs/Web/API/URL/createObjectURL)
-
-    - [HTMLCanvasElement.toBlob()](https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/toBlob) The HTMLCanvasElement.toBlob() method creates a Blob object representing the image contained in the canvas; this file may be cached on the disk or stored in memory at the discretion of the user agent.
-
-    - [getDownloadURL()](https://firebase.google.com/docs/storage/web/download-files) from Firebase.
-
-- 54
-
+- 55
+ - Another way to get the user: `userRef: firebase.auth().currentUser,`
   - Firebase [Upload Files on Web](https://firebase.google.com/docs/storage/web/upload-files).
-
+  - [getDownloadURL()](https://firebase.google.com/docs/storage/web/download-files) from Firebase.
   - Firebase [updateProfile](https://firebase.google.com/docs/auth/web/manage-users#update_a_users_profile).
 
 - 57
-
   - We implemented the `handleKeyDown` function in `MessageForm.js` which sets/removes in Firebase the user's name when typing or not.
 
   - [CSS animation Property](https://www.w3schools.com/cssref/css3_pr_animation.asp)

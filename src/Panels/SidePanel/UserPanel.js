@@ -85,30 +85,33 @@ class UserPanel extends Component {
 
   // Check Readme, 54.
   handleCrop = () => {
-    // ref from AvatarEditor
+    // this.avatarEditor =  ref from AvatarEditor
     if (this.avatarEditor) {
       this.avatarEditor.getImageScaledToCanvas().toBlob(blob => {
         let imageUrl = URL.createObjectURL(blob);
         //console.log('imageUrl', imageUrl);
-        
+
         this.setState({ croppedImage: imageUrl, blob });
       });
     }
   };
 
-  // Check Readme, 54.
+  // Check Readme, 55.
   uploadCroppedImage = () => {
     const { storageRef, userRef, blob, metadata } = this.state;
-    storageRef
-      .child(`avatars/users/${userRef.uid}`)
-      .put(blob, metadata)
-      .then(snap => {
-        snap.ref.getDownloadURL().then(downloadURL => {
-          this.setState({ uploadCroppedImage: downloadURL }, () => {
-            this.changeAvatar();
-          });
+
+    const imageRef = storageRef.child(`avatars/users/${userRef.uid}`);
+    // We should chain the functions,
+    // but we leave it like this to console.log the name and bucket below.
+    imageRef.put(blob, metadata).then(snap => {
+      snap.ref.getDownloadURL().then(downloadURL => {
+        this.setState({ uploadCroppedImage: downloadURL }, () => {
+          this.changeAvatar();
         });
       });
+    });
+    // console.log("imageRef.name", imageRef.name);
+    // console.log("imageRef.bucket", imageRef.bucket);
   };
 
   changeAvatar = () => {
@@ -122,6 +125,7 @@ class UserPanel extends Component {
       })
       .catch(err => console.error(err));
 
+    // update avatar in database
     this.state.usersRef
       .child(this.state.user.uid)
       .update({ avatar: this.state.uploadCroppedImage })

@@ -149,6 +149,8 @@ class MessagesForm extends Component {
   // Mayby we should lookup the metadata and add at the end of the filePath
   // the actual image type, jpg or png.
   // - Done!
+  // Or maybe not, since in UserPanel.js and uploadCroppedImage() function, 
+  // we upload all images as jpeg.  
   upLoadFile = (file, metadata) => {
     const urlEnd = mime.lookup(file.name).match(/(?!.*\/).+/)[0];
     // console.log("storage bucket name ", this.state.storageRef.bucket);
