@@ -15,7 +15,6 @@ class MetaPanel extends Component {
     channel: this.props.currentChannel
   };
 
-  // How come that titleProps gets data, while we never asigned any?
   setActiveIndex = (event, titleProps) => {
     // console.log("MetaPanel titleProps", titleProps);
 
@@ -29,6 +28,12 @@ class MetaPanel extends Component {
 
   diplayTopPosters = userPosts =>
     Object.entries(userPosts)
+      // b[1] = b of the index of 1 ...
+      // The array has two arrays, and the first has one element with the name of the user.
+      // The second has two elements the avatar and the the count of messages.
+      // So b[1].count ...
+      // [key, val]: The key seams to be the first array... the name of the user.
+      // Check for more info in the Read.me file lecture: 49.
       .sort((a, b) => b[1].count - a[1].count)
       .map(([key, val], i) => (
         <List.Item key={i}>

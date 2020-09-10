@@ -107,8 +107,6 @@ class DirectMessages extends Component {
 
   render() {
     const { users, activeChannel } = this.state;
-    console.log('activeChannel', activeChannel);
-
     return (
       <Menu.Menu className="menu">
         <Menu.Item>
@@ -117,25 +115,7 @@ class DirectMessages extends Component {
             DIRECT MESSAGES
           </span>{" "}
           ({users.length})
-          {users.map(user => {
-            console.log('user.uid', user.uid);
-            
-            return (
-              <Menu.Item
-                key={user.uid}
-                active={activeChannel === user.uid}
-                onClick={() => this.changeChannel(user)}
-                style={{ opacity: 0.7, fontStyle: "italic" }}
-              >
-                <Icon
-                  name="circle"
-                  color={this.isUserOnline(user) ? "green" : "red"}
-                />
-                @ {user.name}
-              </Menu.Item>
-            );
-          })}
-          {/* {users.map(user => (
+          {users.map(user => (
             <Menu.Item
               key={user.uid}
               active={activeChannel === user.uid}
@@ -148,7 +128,7 @@ class DirectMessages extends Component {
               />
               @ {user.name}
             </Menu.Item>
-          ))} */}
+          ))}
         </Menu.Item>
       </Menu.Menu>
     );

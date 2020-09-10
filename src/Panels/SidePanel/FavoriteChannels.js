@@ -89,7 +89,7 @@ class FavoriteChannels extends Component {
       <Menu.Menu className="menu">
         <Menu.Item>
           <span>
-            <Icon name="heart outline" />
+            <Icon name="heart" />
             Favorite Channels
           </span>{" "}
           ({favoriteChannels.length})
