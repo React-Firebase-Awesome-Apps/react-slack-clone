@@ -40,7 +40,7 @@ class MessagesForm extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleKeyDown = e => {
+  handleKeyUp = e => {
     if (e.keyCode === 13 || e.which === 13) {
       this.sendMessage();
     }
@@ -255,7 +255,7 @@ class MessagesForm extends Component {
           name="message"
           value={message}
           ref={node => (this.messageInputRef = node)}
-          onKeyUp={this.handleKeyDown}
+          onKeyUp={this.handleKeyUp}
           onChange={this.handleChange}
           style={{ marginBottom: "0.7em" }}
           className={

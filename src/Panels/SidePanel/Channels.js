@@ -47,7 +47,7 @@ class Channels extends Component {
     });
   };
 
-  // extra code: not from course
+  
   removeListeners = () => {
     const { channelsRef, messagesRef, channels } = this.state;
     // No need to set the event...

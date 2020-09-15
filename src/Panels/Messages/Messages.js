@@ -77,12 +77,13 @@ class Messages extends Component {
   }
 
   addToListeners = (id, ref, event) => {
+    // Check if we already have the listener.
     const index = this.state.listeners.findIndex(listener => {
       return (
         listener.id === id && listener.ref === ref && listener.event === event
       );
     });
-
+    // If we don't have that listener, add it.
     if (index === -1) {
       const newListener = { id, ref, event };
       this.setState({ listeners: this.state.listeners.concat(newListener) });
@@ -125,6 +126,7 @@ class Messages extends Component {
         });
         this.setState({ typingUsers });
       }
+      // console.log("typingUsers", typingUsers);
     });
 
     this.addToListeners(channelId, this.state.typingRef, "child_added");
